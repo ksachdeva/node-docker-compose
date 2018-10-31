@@ -21,8 +21,6 @@ export class Compose {
 
     // create the networks for the project
     await this._createNetworks();
-
-    return Promise.resolve();
   }
 
   public async pullImages(): Promise<void> {
@@ -34,38 +32,14 @@ export class Compose {
   }
 
   private async _createNetworks(): Promise<string[]> {
-    // figure out which networks already exist
-    // and only create the ones that do not
-    const networks = await this.docker.listNetworks();
-    // :( dockrode type definitions are seriously 'not good'
-    const existingNw: string[] = networks.map((n) => n.Name);
-    const networksToCreate: Network[] = [];
+    const existingNetworks = await Network.list(this.docker);
+    const networksToCreate = _.differenceWith(
+        this.project.networks, existingNetworks, (nw1, nw2) => {
+          return nw1.isEqual(nw2);
+        });
 
-    // Note - here I am matching the network name only
-    // As per the documentation network name is just a label
-    // the real deal is network Id
-    //
-    // As long as the network driver is bridge below code is
-    // valid. Once I have support for more network drivers then
-    // the comparison should be for full network object and not
-    // just the name
-
-    _.forEach(this.project.networks, (n) => {
-      if (!_.includes(existingNw, n.name.name)) {
-        networksToCreate.push(n);
-      }
-    });
-
-    // at present we create them sequentially
-    const nwIds: string[] = [];
-    _.forEach(networksToCreate, async (nw) => {
-      console.log(`Creating network ${nw.name.name}`);
-      const nwId = await this.docker.createNetwork(
-          {Name: nw.name.name, Driver: nw.driver});
-      nwIds.push(nwId);
-    });
-
-    return nwIds;
+    return await Promise.all(
+        networksToCreate.map((nw) => nw.create(this.docker)));
   }
 
   private _promisifyStream(stream: any) {
