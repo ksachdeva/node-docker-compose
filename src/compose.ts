@@ -38,10 +38,21 @@ export class Compose {
     // in the compose file
 
     // get the containers that are available
-    const [available, notAvailable] =
-        await Container.findAvailable(this.docker, toQuery as ContainerName[]);
+    const [available, notAvailable] = await Container.findAvailable(
+        this.docker, toQuery as ContainerName[], false);
     // kill the ones that are running
     await Container.kill(this.docker, available);
+  }
+
+  public async remove(force: boolean, removeVolumes: boolean): Promise<void> {
+    const toQuery = this.project.services.map((s) => s.containerName);
+
+    // get the containers that are available
+    const [available, notAvailable] = await Container.findAvailable(
+        this.docker, toQuery as ContainerName[], true);
+
+    // remove the available containers
+    await Container.remove(this.docker, available, force, removeVolumes);
   }
 
   private async _createNetworks(): Promise<string[]> {
