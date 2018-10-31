@@ -10,4 +10,8 @@ export class RepoName {
     }
     return this.name === name;
   }
+
+  public toString() {
+    return this.name;
+  }
 }

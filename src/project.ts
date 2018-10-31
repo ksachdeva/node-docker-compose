@@ -88,8 +88,8 @@ export class Project {
     _.forEach(this.services, (s) => _.forEach(s.networks, (n) => {
       const result = _.includes(networkNames, n.name);
       if (!result) {
-        throw new ValidationError(`Service "${
-            s.name.name}" contains an undefined network - "${n.name}"`);
+        throw new ValidationError(
+            `Service "${s.name}" contains an undefined network - "${n}"`);
       }
     }));
   }
@@ -102,8 +102,8 @@ export class Project {
     _.forEach(this.services, (s) => _.forEach(s.dependsOn, (d) => {
       const result = _.includes(serviceNames, d.name);
       if (!result) {
-        throw new ValidationError(`Service "${
-            s.name.name}" contains an undefined dependency - "${d.name}"`);
+        throw new ValidationError(
+            `Service "${s.name}" contains an undefined dependency - "${d}"`);
       }
     }));
   }

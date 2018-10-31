@@ -10,4 +10,8 @@ export class ContainerName {
     }
     return this.name === name;
   }
+
+  public toString() {
+    return this.name;
+  }
 }

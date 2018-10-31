@@ -10,4 +10,8 @@ export class ServiceName {
     }
     return this.name === name;
   }
+
+  public toString() {
+    return this.name;
+  }
 }

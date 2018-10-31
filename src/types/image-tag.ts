@@ -9,4 +9,8 @@ export class ImageTag {
     }
     return this.name === name;
   }
+
+  public toString() {
+    return this.name;
+  }
 }

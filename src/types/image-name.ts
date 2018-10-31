@@ -14,4 +14,8 @@ export class ImageName {
   public isEqual(name: ImageName): boolean {
     return this.repoName.isEqual(name.repoName) && this.tag.isEqual(name.tag);
   }
+
+  public toString() {
+    return this.name;
+  }
 }

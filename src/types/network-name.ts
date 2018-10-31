@@ -10,4 +10,8 @@ export class NetworkName {
     }
     return this.name === name;
   }
+
+  public toString() {
+    return this.name;
+  }
 }
