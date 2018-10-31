@@ -1,4 +1,5 @@
 import Docker from 'dockerode';
+import winston from 'winston';
 
 import {NetworkDriverType} from './types/alias';
 import {NetworkSpec} from './types/compose-spec';
@@ -12,10 +13,17 @@ export class Network {
 
   private static _buildFromNetworkInfo(nw: any): Network {
     const nwName = new NetworkName(nw.Name);
-    return new Network(nwName, {driver: nw.Driver});
+    const network = new Network(nwName, {driver: nw.Driver});
+    network._networkId = nw.Id;
+    return network;
   }
 
   public readonly driver: NetworkDriverType = 'bridge';
+  private _networkId: string|undefined;
+
+  public get networkId() {
+    return this._networkId;
+  }
 
   public constructor(readonly name: NetworkName, networkSpec: NetworkSpec) {
     if (networkSpec.driver !== undefined) {
@@ -23,9 +31,20 @@ export class Network {
     }
   }
 
-  public create(dc: Docker): Promise<string> {
+  public async create(dc: Docker): Promise<void> {
     console.log(`Creating network ${this.name} ...`);
-    return dc.createNetwork({Name: this.name.name, Driver: this.driver});
+    // MUTATION - bad design !
+    this._networkId =
+        (await dc.createNetwork({Name: this.name.name, Driver: this.driver}))
+            .id;
+  }
+
+  public async connect(dc: Docker, container: Docker.Container) {
+    winston.info(
+        `Connecting container ${container.id} to network ${this.name} ..`);
+    await dc.getNetwork(this._networkId as string).connect({
+      Container: container.id
+    });
   }
 
   public isEqual(nw: Network) {

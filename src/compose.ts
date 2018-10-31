@@ -2,7 +2,8 @@ import Docker from 'dockerode';
 import * as _ from 'lodash';
 
 import {Container} from './container';
-import {ContainerName, Network, Project} from './types';
+import {Service} from './service';
+import {ContainerName, Network, NetworkName, Project} from './types';
 import {getOrderedServiceList} from './utils';
 
 export class Compose {
@@ -27,7 +28,11 @@ export class Compose {
     services.forEach(async (s) => {
       const container = await Container.create(this.docker, s);
 
-      // TODO attach the desired network with this container
+      // attach the desired network with this container
+      // if a service does not have a network specified then
+      // we attach it to the project network else we find the network to attach
+      // to
+      await this._attachNetworks(s, container);
 
       // start the container
       await Container.start(this.docker, container);
@@ -69,15 +74,34 @@ export class Compose {
     await Container.remove(this.docker, available, force, removeVolumes);
   }
 
-  private async _createNetworks(): Promise<string[]> {
+  private async _createNetworks(): Promise<void> {
     const existingNetworks = await Network.list(this.docker);
     const networksToCreate = _.differenceWith(
         this.project.networks, existingNetworks, (nw1, nw2) => {
           return nw1.isEqual(nw2);
         });
 
-    return await Promise.all(
-        networksToCreate.map((nw) => nw.create(this.docker)));
+    await Promise.all(networksToCreate.map((nw) => nw.create(this.docker)));
+  }
+
+  private async _attachNetworks(service: Service, container: Docker.Container) {
+    const nwsToConnectTo: Network[] = [];
+    if (service.networks.length === 0) {
+      // we connect it to the first network ? ... does not seem correct
+      // TODO: investigate what rules docker-compose is following here !
+      nwsToConnectTo.push(this.project.networks[0]);
+    } else {
+      service.networks.forEach((n) => {
+        const relevantNws =
+            _.filter(this.project.networks, (nw) => n.isEqual(nw.name));
+        nwsToConnectTo.push(...relevantNws);
+      });
+    }
+
+    // now connect each network one by one to the provided
+    // container
+    nwsToConnectTo.forEach(
+        async (nw) => await nw.connect(this.docker, container));
   }
 
   private _promisifyStream(stream: any) {
