@@ -1,9 +1,10 @@
 import {CommandLineParser, CommandLineStringParameter} from '@microsoft/ts-command-line';
 import * as fs from 'fs-extra';
 import * as path from 'path';
+
 import {ProjectConfig} from '../project-config';
 
-import {PullAction, UpAction} from './actions';
+import {KillAction, PullAction, UpAction} from './actions';
 
 export class AppCommandLine extends CommandLineParser {
   public config: ProjectConfig;
@@ -66,5 +67,6 @@ export class AppCommandLine extends CommandLineParser {
   private _populateActions(): void {
     this.addAction(new UpAction(this));
     this.addAction(new PullAction(this));
+    this.addAction(new KillAction(this));
   }
 }

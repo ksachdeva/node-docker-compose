@@ -1,3 +1,9 @@
+import * as _ from 'lodash';
+
+function _normalizedName(name: string) {
+  return _.trimStart(name, '/');
+}
+
 export class ContainerName {
   constructor(readonly name: string) {
     // for now just assign the argument
@@ -6,9 +12,9 @@ export class ContainerName {
 
   public isEqual(name: ContainerName|string): boolean {
     if (name instanceof ContainerName) {
-      return this.name === name.name;
+      return _normalizedName(this.name) === _normalizedName(name.name);
     }
-    return this.name === name;
+    return _normalizedName(this.name) === _normalizedName(name);
   }
 
   public toString() {

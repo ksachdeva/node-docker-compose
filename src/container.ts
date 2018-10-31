@@ -21,6 +21,8 @@ export class Container {
     const listedContainers = _.flatten(
         containerInfo.map((c) => c.Names.map((n) => new ContainerName(n))));
 
+    listedContainers.forEach(console.log);
+
     const availableContainers =
         _.intersectionWith(listedContainers, containersToQuery, (c1, c2) => {
           return c1.isEqual(c2);
@@ -44,5 +46,9 @@ export class Container {
 
     return Promise.resolve<FindAvailableContainersResponse>(
         [availabeContainersInfo, notAvailableContainers]);
+  }
+
+  public static async kill(dc: Docker, containers: AvailableContainers) {
+    await Promise.all(containers.map((c) => dc.getContainer(c.Id).kill()));
   }
 }

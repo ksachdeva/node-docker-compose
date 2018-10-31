@@ -1,7 +1,8 @@
 import Docker from 'dockerode';
 import * as _ from 'lodash';
 
-import {Network, Project} from './types';
+import {Container} from './container';
+import {ContainerName, Network, Project} from './types';
 import {getOrderedServiceList} from './utils';
 
 export class Compose {
@@ -29,6 +30,18 @@ export class Compose {
       const pullStream = await this.docker.pull(s.imageName.name, {});
       await this._promisifyStream(pullStream);
     });
+  }
+
+  public async kill(): Promise<void> {
+    const toQuery = this.project.services.map((s) => s.containerName);
+    // TODO: at present I am assuming that container names are specified
+    // in the compose file
+
+    // get the containers that are available
+    const [available, notAvailable] =
+        await Container.findAvailable(this.docker, toQuery as ContainerName[]);
+    // kill the ones that are running
+    await Container.kill(this.docker, available);
   }
 
   private async _createNetworks(): Promise<string[]> {
