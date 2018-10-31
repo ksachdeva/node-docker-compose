@@ -1,6 +1,6 @@
-import {NetworkDriverType} from './alias';
-import {NetworkSpec} from './compose-spec';
-import {NetworkName} from './network-name';
+import {NetworkDriverType} from './types/alias';
+import {NetworkSpec} from './types/compose-spec';
+import {NetworkName} from './types/network-name';
 
 export class Network {
   public readonly driver: NetworkDriverType = 'bridge';

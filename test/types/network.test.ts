@@ -1,5 +1,5 @@
+import {Network} from '../../src/network';
 import {NetworkSpec} from '../../src/types/compose-spec';
-import {Network} from '../../src/types/network';
 import {NetworkName} from '../../src/types/network-name';
 
 describe('types/network', () => {

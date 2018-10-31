@@ -1,5 +1,5 @@
+import {Service} from '../../src/service';
 import {ServiceSpec} from '../../src/types/compose-spec';
-import {Service} from '../../src/types/service';
 import {ServiceName} from '../../src/types/service-name';
 
 describe('types/service', () => {

@@ -1,10 +1,10 @@
-import {Restart} from './alias';
-import {ServiceSpec} from './compose-spec';
-import {ContainerName} from './container-name';
-import {ImageName} from './image-name';
-import {NetworkName} from './network-name';
-import {PortMap} from './port-map';
-import {ServiceName} from './service-name';
+import {Restart} from './types/alias';
+import {ServiceSpec} from './types/compose-spec';
+import {ContainerName} from './types/container-name';
+import {ImageName} from './types/image-name';
+import {NetworkName} from './types/network-name';
+import {PortMap} from './types/port-map';
+import {ServiceName} from './types/service-name';
 
 export class Service {
   public readonly name: ServiceName;

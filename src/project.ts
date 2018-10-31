@@ -1,12 +1,12 @@
 import * as _ from 'lodash';
 
 import {ValidationError} from './errors';
+import {Network} from './network';
 import {ProjectConfig} from './project-config';
+import {Service} from './service';
 import {ComposeSpec} from './types/compose-spec';
 import {ComposeVersion} from './types/compose-version';
-import {Network} from './types/network';
 import {NetworkName} from './types/network-name';
-import {Service} from './types/service';
 import {ServiceName} from './types/service-name';
 import {convertToJSON} from './yaml-to-json';
 
