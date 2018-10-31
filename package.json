@@ -1,16 +1,24 @@
 {
-  "name": "docker-compose",
+  "name": "node-docker-compose",
   "version": "0.0.1",
-  "description": "Docker Compose library and tool written for NodeJS",
-  "main": "index.js",
+  "description": "Docker Compose library and cli written for NodeJS",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
-    "postinstall": "tsc",
+    "build": "tsc",
+    "lint": "tslint -p tsconfig.json",
+    "prepare": "npm run build",
+    "prepublishOnly": "npm test && npm run lint",
     "test": "jest --forceExit --coverage --verbose"
   },
   "keywords": [
     "docker",
     "docker-compose"
   ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ksachdeva/node-docker-compose.git"
+  },
   "author": "Kapil Sachdeva",
   "license": "Apache-2.0",
   "devDependencies": {

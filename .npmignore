@@ -1,0 +1,11 @@
+node_modules
+src
+test
+typings
+tsconfig.json
+tslint.json
+typings.json
+aot
+.idea/
+jest.config.js
+coverage

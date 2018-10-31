@@ -3,15 +3,15 @@ import {Project} from '../../types/project';
 import {AppCommandLine} from '../cmd-line';
 
 export class UpAction extends CommandLineAction {
-
   constructor(private _parser: AppCommandLine) {
     super({
-      actionName : 'up',
-      summary : 'Create and start containers',
-      documentation : 'Create and start containers'
+      actionName: 'up',
+      summary: 'Create and start containers',
+      documentation: 'Create and start containers'
     });
   }
 
+  // tslint:disable-next-line:no-empty
   protected onDefineParameters(): void {}
 
   protected async onExecute(): Promise<void> {
