@@ -2,7 +2,7 @@ import Docker from 'dockerode';
 import * as _ from 'lodash';
 import winston from 'winston';
 
-import {ContainerName} from './types';
+import {ContainerName, Service} from './types';
 
 export type AvailableContainers = Docker.ContainerInfo[];
 export type NotAvailableContainers = ContainerName[];
@@ -63,5 +63,20 @@ export class Container {
       winston.info(`Removing ${c.Names[0]} ... `);
       dc.getContainer(c.Id).remove({force, v: removeVolumes});
     }));
+  }
+
+  public static create(dc: Docker, service: Service):
+      Promise<Docker.Container> {
+    winston.info(
+        `Creating container ${service.containerName} for ${service.name} ..`);
+    return dc.createContainer({
+      Image: service.imageName.name,
+      name: (service.containerName as ContainerName).name
+    });
+  }
+
+  public static start(dc: Docker, container: Docker.Container) {
+    winston.info(`Starting the container ${container.id} ..`);
+    return container.start();
   }
 }

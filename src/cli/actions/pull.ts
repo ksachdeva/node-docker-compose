@@ -21,7 +21,7 @@ export class PullAction extends CommandLineAction {
     const project = new Project(this._parser.config);
     const compose = new Compose(project);
 
-    await compose.pullImages();
+    await compose.pull();
 
     return Promise.resolve();
   }

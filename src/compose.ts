@@ -18,13 +18,27 @@ export class Compose {
     // pull the images first before modifying/changing anything
     // this way even if there are failures there is no n/w creation
     // at this point of time
-    await this.pullImages();
+    await this.pull();
 
     // create the networks for the project
     await this._createNetworks();
+
+    // create the containers in sequence
+    services.forEach(async (s) => {
+      const container = await Container.create(this.docker, s);
+
+      // TODO attach the desired network with this container
+
+      // start the container
+      await Container.start(this.docker, container);
+    });
   }
 
-  public async pullImages(): Promise<void> {
+  public async down(): Promise<void> {
+    // this one brings down the project
+  }
+
+  public async pull(): Promise<void> {
     // pull them sequentially for now
     _.forEach(this.project.services, async (s) => {
       const pullStream = await this.docker.pull(s.imageName.name, {});
