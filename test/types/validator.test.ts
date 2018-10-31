@@ -1,4 +1,3 @@
-import {validateComposeSpec} from '../../src/compose-spec-validator';
 import {ValidationError} from '../../src/errors';
 import {Project} from '../../src/project';
 import {ComposeSpec, NetworkSpec, ServiceSpec} from '../../src/types/compose-spec';
@@ -19,9 +18,9 @@ describe('spec-validator', () => {
       services: {aservice: serviceSpec}
     };
 
+    // should not throw any erro
     const project =
         new Project({projectName: 'test', composeSpec, pull: false});
-    validateComposeSpec(project);
   });
 
   it('Service should not have undefined network', () => {
@@ -39,10 +38,9 @@ describe('spec-validator', () => {
       services: {aservice: serviceSpec}
     };
 
-    const project = new Project(
-        {projectName: 'test', composeSpec: composeSpec, pull: false});
     expect(() => {
-      validateComposeSpec(project);
+      const project =
+          new Project({projectName: 'test', composeSpec, pull: false});
     }).toThrowError(ValidationError);
   });
 
@@ -56,10 +54,9 @@ describe('spec-validator', () => {
     const composeSpec:
         ComposeSpec = {version: '2.0', services: {aservice: serviceSpec}};
 
-    const project =
-        new Project({projectName: 'test', composeSpec, pull: false});
     expect(() => {
-      validateComposeSpec(project);
+      const project =
+          new Project({projectName: 'test', composeSpec, pull: false});
     }).toThrowError(ValidationError);
   });
 });

@@ -1,15 +1,12 @@
 import Docker from 'dockerode';
 import * as _ from 'lodash';
 
-import {validateComposeSpec} from './compose-spec-validator';
 import {Network, Project} from './types';
 import {getOrderedServiceList} from './utils';
 
 export class Compose {
   private docker: Docker;
   public constructor(private readonly project: Project) {
-    // validate if the spec is correct
-    validateComposeSpec(project);
     this.docker = new Docker({socketPath: '/var/run/docker.sock'});
   }
 
