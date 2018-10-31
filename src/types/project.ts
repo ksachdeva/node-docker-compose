@@ -1,5 +1,8 @@
+import * as _ from 'lodash';
+
 import {ValidationError} from '../errors';
 import {convertToJSON} from '../yaml-to-json';
+
 import {ComposeSpec} from './compose-spec';
 import {ComposeVersion} from './compose-version';
 import {Network} from './network';
@@ -9,13 +12,11 @@ import {Service} from './service';
 import {ServiceName} from './service-name';
 
 export class Project {
-
   public readonly version: ComposeVersion;
   public readonly services: Service[];
   public readonly networks: Network[];
 
   public constructor(readonly config: ProjectConfig) {
-
     let composeSpec: ComposeSpec;
     if (typeof (config.composeSpec) === 'string') {
       composeSpec = convertToJSON(config.composeSpec as string);
@@ -43,9 +44,22 @@ export class Project {
 
         const networkName = new NetworkName(key);
         const network = new Network(networkName, composeSpec.networks[key]);
-
         this.networks.push(network);
       }
+    } else {
+      // we create a default network name which is "projectname_default"
+      // now since projectname itself may be directoryname_default
+      // a bit of parsing is required
+      let nwName;
+      if (_.endsWith(this.config.projectName, '_default')) {
+        nwName = this.config.projectName;
+      } else {
+        nwName = this.config.projectName + '_default';
+      }
+
+      const networkName = new NetworkName(nwName);
+      const network = new Network(networkName, {driver: 'bridge'});
+      this.networks.push(network);
     }
   }
 
