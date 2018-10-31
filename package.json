@@ -1,0 +1,37 @@
+{
+  "name": "docker-compose",
+  "version": "0.0.1",
+  "description": "Docker Compose library and tool written for NodeJS",
+  "main": "index.js",
+  "scripts": {
+    "postinstall": "tsc",
+    "test": "jest --forceExit --coverage --verbose"
+  },
+  "keywords": [
+    "docker",
+    "docker-compose"
+  ],
+  "author": "Kapil Sachdeva",
+  "license": "Apache-2.0",
+  "devDependencies": {
+    "@types/dockerode": "^2.5.5",
+    "@types/fs-extra": "^5.0.4",
+    "@types/jest": "^23.3.8",
+    "@types/js-yaml": "^3.11.2",
+    "@types/lodash": "^4.14.117",
+    "jest": "^23.6.0",
+    "ts-jest": "^23.10.4",
+    "ts-node": "^7.0.1",
+    "tslint": "^5.11.0",
+    "tslint-microsoft-contrib": "^5.2.0",
+    "typescript": "^3.0.1"
+  },
+  "dependencies": {
+    "@microsoft/ts-command-line": "^4.2.1",
+    "dependency-graph": "^0.7.2",
+    "dockerode": "^2.5.7",
+    "fs-extra": "^7.0.0",
+    "js-yaml": "^3.12.0",
+    "lodash": "^4.17.11"
+  }
+}
