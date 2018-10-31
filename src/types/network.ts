@@ -1,5 +1,5 @@
+import {NetworkDriverType} from './alias';
 import {NetworkSpec} from './compose-spec';
-import {NetworkDriverType} from './network-driver-type';
 import {NetworkName} from './network-name';
 
 export class Network {

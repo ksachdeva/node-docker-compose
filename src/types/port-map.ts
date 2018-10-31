@@ -1,4 +1,4 @@
-import {Port} from './port';
+import {Port} from './alias';
 
 export class PortMap {
   public readonly src: Port;

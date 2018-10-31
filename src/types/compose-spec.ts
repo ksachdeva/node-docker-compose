@@ -1,6 +1,5 @@
+import {NetworkDriverType, Restart} from './alias';
 import {ComposeVersion} from './compose-version';
-import {NetworkDriverType} from './network-driver-type';
-import {Restart} from './restart';
 
 export interface ServiceSpec {
   image: string;
@@ -18,6 +17,6 @@ export interface NetworkSpec {
 
 export interface ComposeSpec {
   version: ComposeVersion;
-  services: { [key: string]: ServiceSpec; };
-  networks?: { [key: string]: NetworkSpec };
+  services: {[key: string]: ServiceSpec;};
+  networks?: {[key: string]: NetworkSpec};
 }

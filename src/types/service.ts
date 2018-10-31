@@ -1,13 +1,12 @@
+import {Restart} from './alias';
 import {ServiceSpec} from './compose-spec';
 import {ContainerName} from './container-name';
 import {ImageName} from './image-name';
 import {NetworkName} from './network-name';
 import {PortMap} from './port-map';
-import {Restart} from './restart';
 import {ServiceName} from './service-name';
 
 export class Service {
-
   public readonly name: ServiceName;
   public readonly imageName: ImageName;
   public readonly containerName: ContainerName|null;
@@ -34,7 +33,7 @@ export class Service {
 
     if (serviceSpec.depends_on !== undefined) {
       this.dependsOn =
-        serviceSpec.depends_on.map((s: string) => new ServiceName(s));
+          serviceSpec.depends_on.map((s: string) => new ServiceName(s));
     }
 
     if (serviceSpec.restart !== undefined) {
@@ -43,7 +42,7 @@ export class Service {
 
     if (serviceSpec.networks !== undefined) {
       this.networks =
-        serviceSpec.networks.map((s: string) => new NetworkName(s));
+          serviceSpec.networks.map((s: string) => new NetworkName(s));
     }
   }
 }
