@@ -55,8 +55,9 @@ export class AppCommandLine extends CommandLineParser {
     // if project name is not specified then we pick the directory
     // name of specified compose file
     if (!this._projectName.value) {
-      this.config.projectName =
-          `${path.dirname(this._composeFile.value as string)}_default`;
+      const dname =
+          path.basename(path.dirname(this._composeFile.value as string));
+      this.config.projectName = `${dname}_default`;
     } else {
       this.config.projectName = this._projectName.value as string;
     }
