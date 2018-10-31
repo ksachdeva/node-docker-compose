@@ -1,5 +1,5 @@
+import {Project} from '../../src/project';
 import {ComposeSpec, ServiceSpec} from '../../src/types/compose-spec';
-import {Project} from '../../src/types/project';
 
 describe('project', () => {
   it('A default n/w is created if one is not specified', async () => {

@@ -1,15 +1,11 @@
-import {
-  CommandLineParser,
-  CommandLineStringParameter
-} from '@microsoft/ts-command-line';
+import {CommandLineParser, CommandLineStringParameter} from '@microsoft/ts-command-line';
 import * as fs from 'fs-extra';
 import * as path from 'path';
-import {ProjectConfig} from 'project-config';
+import {ProjectConfig} from '../project-config';
 
 import {PullAction, UpAction} from './actions';
 
 export class AppCommandLine extends CommandLineParser {
-
   public config: ProjectConfig;
 
   private _composeFile: CommandLineStringParameter;
@@ -17,40 +13,37 @@ export class AppCommandLine extends CommandLineParser {
 
   constructor() {
     super({
-      toolFilename : 'ndc',
-      toolDescription :
-        'Define and run multi-container applications with Docker.'
+      toolFilename: 'ndc',
+      toolDescription:
+          'Define and run multi-container applications with Docker.'
     });
 
-    this.config = { projectName : '', pull : false, composeSpec : '' };
+    this.config = {projectName: '', pull: false, composeSpec: ''};
 
     this._populateActions();
   }
 
   protected onDefineParameters(): void {
-
     this._composeFile = this.defineStringParameter({
-      parameterLongName : '--file',
-      parameterShortName : '-f',
-      required : false,
-      defaultValue : 'docker-compose.yaml',
-      argumentName : 'COMPOSE_FILE_PATH',
-      description :
-        'Specify an alternate compose file (default: docker-compose.yaml)'
+      parameterLongName: '--file',
+      parameterShortName: '-f',
+      required: false,
+      defaultValue: 'docker-compose.yaml',
+      argumentName: 'COMPOSE_FILE_PATH',
+      description:
+          'Specify an alternate compose file (default: docker-compose.yaml)'
     });
 
     this._projectName = this.defineStringParameter({
-      parameterLongName : '--project-name',
-      parameterShortName : '-p',
-      required : false,
-      argumentName : 'PROJECT_NAME',
-      description :
-        'Specify an alternate project name (default: directory name)'
+      parameterLongName: '--project-name',
+      parameterShortName: '-p',
+      required: false,
+      argumentName: 'PROJECT_NAME',
+      description: 'Specify an alternate project name (default: directory name)'
     });
   }
 
   protected onExecute(): Promise<void> {
-
     // validate if the file exists
     if (!fs.pathExistsSync(this._composeFile.value as string)) {
       return Promise.reject(new Error('Invalid path to compose file !'));
@@ -62,7 +55,7 @@ export class AppCommandLine extends CommandLineParser {
     // name of specified compose file
     if (!this._projectName.value) {
       this.config.projectName =
-        `${path.dirname(this._composeFile.value as string)}_default`;
+          `${path.dirname(this._composeFile.value as string)}_default`;
     } else {
       this.config.projectName = this._projectName.value as string;
     }

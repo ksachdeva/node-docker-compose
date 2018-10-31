@@ -1,6 +1,6 @@
 import {Compose} from '../../src/compose';
+import {Project} from '../../src/project';
 import {ComposeSpec, ServiceSpec} from '../../src/types/compose-spec';
-import {Project} from '../../src/types/project';
 
 describe('compose', () => {
   it('Basic pull test', async () => {

@@ -1,6 +1,6 @@
 import * as _ from 'lodash';
 import {ValidationError} from './errors';
-import {Project} from './types/project';
+import {Project} from './project';
 
 function _validateNetworksInServices(project: Project) {
   // purpose of this validator is to ensure that Services contains only
@@ -10,8 +10,8 @@ function _validateNetworksInServices(project: Project) {
   _.forEach(project.services, (s) => _.forEach(s.networks, (n) => {
     const result = _.includes(networkNames, n.name);
     if (!result) {
-      throw new ValidationError(
-        `Service "${s.name.name}" contains an undefined network - "${n.name}"`);
+      throw new ValidationError(`Service "${
+          s.name.name}" contains an undefined network - "${n.name}"`);
     }
   }));
 }
@@ -25,7 +25,7 @@ function _validateServiceDependencyExists(project: Project) {
     const result = _.includes(serviceNames, d.name);
     if (!result) {
       throw new ValidationError(`Service "${
-        s.name.name}" contains an undefined dependency - "${d.name}"`);
+          s.name.name}" contains an undefined dependency - "${d.name}"`);
     }
   }));
 }

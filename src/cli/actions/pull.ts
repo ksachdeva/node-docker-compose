@@ -1,16 +1,15 @@
 import {CommandLineAction} from '@microsoft/ts-command-line';
 import {Compose} from '../../compose';
-import {Project} from '../../types/project';
+import {Project} from '../../project';
 import {AppCommandLine} from '../cmd-line';
 
 export class PullAction extends CommandLineAction {
-
   constructor(private _parser: AppCommandLine) {
     super({
-      actionName : 'pull',
-      summary : 'Pull service images',
-      documentation :
-        'Pulls images for services defined in a Compose file, but does not start the containers.'
+      actionName: 'pull',
+      summary: 'Pull service images',
+      documentation:
+          'Pulls images for services defined in a Compose file, but does not start the containers.'
     });
   }
 

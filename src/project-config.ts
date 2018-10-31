@@ -1,4 +1,4 @@
-import {ComposeSpec} from './compose-spec';
+import {ComposeSpec} from './types/compose-spec';
 
 export interface ProjectConfig {
   projectName: string;

@@ -1,7 +1,7 @@
 import {validateComposeSpec} from '../../src/compose-spec-validator';
 import {ValidationError} from '../../src/errors';
+import {Project} from '../../src/project';
 import {ComposeSpec, NetworkSpec, ServiceSpec} from '../../src/types/compose-spec';
-import {Project} from '../../src/types/project';
 
 describe('spec-validator', () => {
   it('Basic correct definition', () => {

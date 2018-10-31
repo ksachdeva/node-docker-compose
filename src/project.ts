@@ -1,15 +1,14 @@
 import * as _ from 'lodash';
 
-import {ValidationError} from '../errors';
-import {convertToJSON} from '../yaml-to-json';
-
-import {ComposeSpec} from './compose-spec';
-import {ComposeVersion} from './compose-version';
-import {Network} from './network';
-import {NetworkName} from './network-name';
+import {ValidationError} from './errors';
 import {ProjectConfig} from './project-config';
-import {Service} from './service';
-import {ServiceName} from './service-name';
+import {ComposeSpec} from './types/compose-spec';
+import {ComposeVersion} from './types/compose-version';
+import {Network} from './types/network';
+import {NetworkName} from './types/network-name';
+import {Service} from './types/service';
+import {ServiceName} from './types/service-name';
+import {convertToJSON} from './yaml-to-json';
 
 export class Project {
   public readonly version: ComposeVersion;

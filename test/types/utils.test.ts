@@ -1,5 +1,5 @@
+import {Project} from '../../src/project';
 import {ComposeSpec, NetworkSpec, ServiceSpec} from '../../src/types/compose-spec';
-import {Project} from '../../src/types/project';
 import {getOrderedServiceList} from '../../src/utils';
 
 describe('utils', () => {
