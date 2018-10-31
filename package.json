@@ -22,7 +22,6 @@
   "author": "Kapil Sachdeva",
   "license": "Apache-2.0",
   "devDependencies": {
-    "@types/dockerode": "^2.5.5",
     "@types/fs-extra": "^5.0.4",
     "@types/jest": "^23.3.8",
     "@types/js-yaml": "^3.11.2",

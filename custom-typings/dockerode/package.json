@@ -1,0 +1,14 @@
+{
+    "dependencies": {
+        "@types/node": "*"
+    },
+    "deprecated": false,
+    "description": "TypeScript definitions for dockerode",
+    "license": "MIT",
+    "main": "",
+    "name": "dockerode",
+    "scripts": {},
+    "typeScriptVersion": "2.2",
+    "types": "",
+    "version": "2.5.6"
+}
