@@ -4,7 +4,7 @@ import {NetworkName} from '../../src/types/network-name';
 
 describe('types/network', () => {
   it('basic-parse-test', () => {
-    const networkSpec: NetworkSpec = { driver : 'bridge' };
+    const networkSpec: NetworkSpec = {driver: 'bridge'};
 
     const network = new Network(new NetworkName('anetwork'), networkSpec);
 

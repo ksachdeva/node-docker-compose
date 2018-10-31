@@ -5,9 +5,9 @@ import {ServiceName} from '../../src/types/service-name';
 describe('types/service', () => {
   it('basic-parse-test', () => {
     const serviceSpec: ServiceSpec = {
-      image : 'docker.elastic.co/elasticsearch/elasticsearch:6.4.2',
-      ports : [ '9200:9201', '9300:9302' ],
-      networks : [ 'docker_elk' ]
+      image: 'docker.elastic.co/elasticsearch/elasticsearch:6.4.2',
+      ports: ['9200:9201', '9300:9302'],
+      networks: ['docker_elk']
     };
 
     const service = new Service(new ServiceName('aservice'), serviceSpec);
@@ -19,7 +19,7 @@ describe('types/service', () => {
 
     expect(service.imageName).toBeDefined();
     expect(service.imageName.repoName.name)
-      .toEqual('docker.elastic.co/elasticsearch/elasticsearch');
+        .toEqual('docker.elastic.co/elasticsearch/elasticsearch');
     expect(service.imageName.tag.name).toEqual('6.4.2');
 
     expect(service.networks[0].name).toEqual('docker_elk');
