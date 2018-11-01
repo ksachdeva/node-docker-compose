@@ -13,7 +13,7 @@ export class ServiceDefinition {
   public readonly containerName: ContainerName|null;
   public readonly ports: PortMap[];
   public readonly dependsOn: ServiceName[];
-  public readonly restart: Restart = 'no';
+  public readonly restart: Restart = '';
   public readonly networks: NetworkName[];
 
   public constructor(serviceName: ServiceName, serviceSpec: ServiceSpec) {

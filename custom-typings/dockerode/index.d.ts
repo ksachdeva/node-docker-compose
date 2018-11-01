@@ -544,6 +544,11 @@ declare namespace Dockerode {
     [key: string]: Array<PortBinding>
   }
 
+  interface RestartPolicy {
+    Name: string;
+    MaximumRetryCount?: number;
+  }
+
   interface ContainerCreateOptions {
     name?: string;
     Hostname?: string;
@@ -603,7 +608,7 @@ declare namespace Dockerode {
       CapAdd?: string[];
       CapDrop?: string[];
       GroupAdd?: string[];
-      RestartPolicy?: {[index: string]: number | string};
+      RestartPolicy?: RestartPolicy;
       NetworkMode?: string;
       Devices?: any[];
       Sysctls?: {[index: string]: string};

@@ -73,6 +73,7 @@ export class Container {
     const opts: Docker.ContainerCreateOptions = {
       Image: service.imageName.name,
       name: (service.containerName as ContainerName).name,
+      HostConfig: {RestartPolicy: {Name: service.restart}}
     };
 
     if (service.ports.length > 0) {
@@ -80,7 +81,9 @@ export class Container {
       for (const p of service.ports) {
         portBindings[`${p.container}/tcp`] = [{HostPort: p.host.toString()}];
       }
-      opts.HostConfig = {PortBindings: portBindings};
+      if (opts.HostConfig) {
+        opts.HostConfig.PortBindings = portBindings;
+      }
     }
 
     return dc.createContainer(opts);
