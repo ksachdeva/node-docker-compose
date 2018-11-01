@@ -9,7 +9,8 @@ describe('spec-validator', () => {
     const serviceSpec: ServiceSpec = {
       image: 'docker.elastic.co/elasticsearch/elasticsearch:6.4.2',
       ports: ['9200:9201', '9300:9302'],
-      networks: ['docker_elk']
+      networks: ['docker_elk'],
+      container_name: 'elasticsearch'
     };
 
     const composeSpec: ComposeSpec = {
@@ -29,7 +30,8 @@ describe('spec-validator', () => {
     const serviceSpec: ServiceSpec = {
       image: 'docker.elastic.co/elasticsearch/elasticsearch:6.4.2',
       ports: ['9200:9201', '9300:9302'],
-      networks: ['docker_elk']
+      networks: ['docker_elk'],
+      container_name: 'elasticsearch'
     };
 
     const composeSpec: ComposeSpec = {
@@ -48,7 +50,8 @@ describe('spec-validator', () => {
     const serviceSpec: ServiceSpec = {
       image: 'docker.elastic.co/elasticsearch/elasticsearch:6.4.2',
       ports: ['9200:9201', '9300:9302'],
-      depends_on: ['some_service']
+      depends_on: ['some_service'],
+      container_name: 'elasticsearch'
     };
 
     const composeSpec:

@@ -4,7 +4,7 @@ import {ComposeVersion} from './compose-version';
 export interface ServiceSpec {
   image: string;
   restart?: Restart;
-  container_name?: string;
+  container_name: string;  // Note - make it mandatory for some time
   ports?: string[];
   volumes?: string[];
   networks?: string[];

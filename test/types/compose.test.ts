@@ -6,6 +6,7 @@ describe('compose', () => {
   it('Basic pull test', async () => {
     const serviceSpec1: ServiceSpec = {
       image: 'docker.elastic.co/elasticsearch/elasticsearch:6.4.2',
+      container_name: 'elasticsearch',
       ports: ['9200:9201', '9300:9302']
     };
 

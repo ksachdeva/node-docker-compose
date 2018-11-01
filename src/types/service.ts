@@ -1,3 +1,4 @@
+import {ValidationError} from '../errors';
 import {Restart} from './alias';
 import {ServiceSpec} from './compose-spec';
 import {ContainerName} from './container-name';
@@ -23,9 +24,12 @@ export class ServiceDefinition {
     this.networks = [];
     this.containerName = null;
 
-    if (serviceSpec.container_name !== undefined) {
-      this.containerName = new ContainerName(serviceSpec.container_name);
+    if (serviceSpec.container_name === undefined) {
+      throw new ValidationError(
+          'Please specify the container names for the service !');
     }
+
+    this.containerName = new ContainerName(serviceSpec.container_name);
 
     if (serviceSpec.ports !== undefined) {
       this.ports = serviceSpec.ports.map((p: string) => new PortMap(p));

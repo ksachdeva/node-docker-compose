@@ -9,7 +9,8 @@ describe('utils', () => {
     const serviceSpec1: ServiceSpec = {
       image: 'docker.elastic.co/elasticsearch/elasticsearch:6.4.2',
       ports: ['9200:9201', '9300:9302'],
-      networks: ['docker_elk']
+      networks: ['docker_elk'],
+      container_name: 'elasticsearch'
     };
 
     const serviceSpec2: ServiceSpec = {

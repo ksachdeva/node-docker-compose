@@ -5,7 +5,8 @@ describe('project', () => {
   it('A default n/w is created if one is not specified', async () => {
     const serviceSpec1: ServiceSpec = {
       image: 'docker.elastic.co/elasticsearch/elasticsearch:6.4.2',
-      ports: ['9200:9201', '9300:9302']
+      ports: ['9200:9201', '9300:9302'],
+      container_name: 'elasticsearch'
     };
 
     const composeSpec:
