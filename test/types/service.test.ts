@@ -1,5 +1,5 @@
-import {Service} from '../../src/service';
 import {ServiceSpec} from '../../src/types/compose-spec';
+import {ServiceDefinition} from '../../src/types/service';
 import {ServiceName} from '../../src/types/service-name';
 
 describe('types/service', () => {
@@ -10,7 +10,8 @@ describe('types/service', () => {
       networks: ['docker_elk']
     };
 
-    const service = new Service(new ServiceName('aservice'), serviceSpec);
+    const service =
+        new ServiceDefinition(new ServiceName('aservice'), serviceSpec);
 
     // basic asserts
     expect(service.containerName).toBeNull();

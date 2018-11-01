@@ -18,7 +18,8 @@ describe('container', () => {
       new ContainerName('/lookingfor_this_one_ssl')
     ];
 
-    const result = await Container.findAvailable(dc as any, containersToQuery);
+    const result =
+        await Container.findAvailable(dc as any, containersToQuery, false);
 
     expect(result[0]).toHaveLength(1);
     expect(result[1]).toHaveLength(2);
@@ -48,7 +49,8 @@ describe('container', () => {
       new ContainerName('/lookingfor_this_one_ssl')
     ];
 
-    const result = await Container.findAvailable(dc as any, containersToQuery);
+    const result =
+        await Container.findAvailable(dc as any, containersToQuery, false);
 
     expect(result[0]).toHaveLength(3);
     expect(result[1]).toHaveLength(0);
@@ -66,7 +68,8 @@ describe('container', () => {
       new ContainerName('/lookingfor_this_one_ssl')
     ];
 
-    const result = await Container.findAvailable(dc as any, containersToQuery);
+    const result =
+        await Container.findAvailable(dc as any, containersToQuery, false);
 
     expect(result[0]).toHaveLength(0);
     expect(result[1]).toHaveLength(3);

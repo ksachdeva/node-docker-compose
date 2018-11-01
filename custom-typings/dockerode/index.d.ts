@@ -329,6 +329,20 @@ declare namespace Dockerode {
     MacAddress: string;
   }
 
+  // not complete definition of network inspection
+  // info which is returned by list / inspect
+  interface NetworkInspectInfo {
+    Id: string;
+    Name: string;
+    Driver: string;
+    Created: string;
+    Scope: string;
+    EnableIPv6: boolean;
+    Internal: boolean;
+    Attachable: boolean;
+    Ingress: boolean;
+  }
+
   interface ContainerInspectInfo {
     Id: string;
     Created: string;

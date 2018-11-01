@@ -17,6 +17,6 @@ describe('compose', () => {
 
     const compose = new Compose(project);
 
-    await compose.pullImages();
+    await compose.pull();
   });
 });

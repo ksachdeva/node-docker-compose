@@ -1,9 +1,10 @@
 import Docker from 'dockerode';
 import * as _ from 'lodash';
+import winston from 'winston';
 
 import {Container} from './container';
-import {Service} from './service';
-import {ContainerName, Network, NetworkName, Project} from './types';
+import {NetworkManager} from './network-manager';
+import {ContainerName, Project} from './types';
 import {getOrderedServiceList} from './utils';
 
 export class Compose {
@@ -19,24 +20,41 @@ export class Compose {
     // pull the images first before modifying/changing anything
     // this way even if there are failures there is no n/w creation
     // at this point of time
+    winston.debug('Pulling the images ..');
     await this.pull();
 
+    // get the list of existing networks
+    winston.debug('List the existing networks ..');
+    let existingNetworks = await NetworkManager.list(this.docker);
+
     // create the networks for the project
-    await this._createNetworks();
+    winston.debug('Create the networks that do not exist ..');
+    existingNetworks = await NetworkManager.create(
+        this.docker, this.project.networks, existingNetworks);
+
+    const networksForDefinition: Docker.NetworkInspectInfo[] = [];
+    _.forEach(this.project.networks, (n) => {
+      const flist = _.filter(existingNetworks, (e) => (n.name.name === e.Name));
+      networksForDefinition.push(...flist);
+    });
 
     // create the containers in sequence
-    services.forEach(async (s) => {
+    for (const s of services) {
+      winston.debug('Create the container ..');
       const container = await Container.create(this.docker, s);
 
       // attach the desired network with this container
       // if a service does not have a network specified then
       // we attach it to the project network else we find the network to attach
       // to
-      await this._attachNetworks(s, container);
+      winston.debug('Attaching networks ..');
+      await NetworkManager.attachNetworks(
+          this.docker, s, container, networksForDefinition);
 
-      // start the container
+      // finally start the container
+      winston.debug('Start the container ..');
       await Container.start(this.docker, container);
-    });
+    }
   }
 
   public async down(): Promise<void> {
@@ -45,10 +63,10 @@ export class Compose {
 
   public async pull(): Promise<void> {
     // pull them sequentially for now
-    _.forEach(this.project.services, async (s) => {
+    for (const s of this.project.services) {
       const pullStream = await this.docker.pull(s.imageName.name, {});
       await this._promisifyStream(pullStream);
-    });
+    }
   }
 
   public async kill(): Promise<void> {
@@ -72,36 +90,6 @@ export class Compose {
 
     // remove the available containers
     await Container.remove(this.docker, available, force, removeVolumes);
-  }
-
-  private async _createNetworks(): Promise<void> {
-    const existingNetworks = await Network.list(this.docker);
-    const networksToCreate = _.differenceWith(
-        this.project.networks, existingNetworks, (nw1, nw2) => {
-          return nw1.isEqual(nw2);
-        });
-
-    await Promise.all(networksToCreate.map((nw) => nw.create(this.docker)));
-  }
-
-  private async _attachNetworks(service: Service, container: Docker.Container) {
-    const nwsToConnectTo: Network[] = [];
-    if (service.networks.length === 0) {
-      // we connect it to the first network ? ... does not seem correct
-      // TODO: investigate what rules docker-compose is following here !
-      nwsToConnectTo.push(this.project.networks[0]);
-    } else {
-      service.networks.forEach((n) => {
-        const relevantNws =
-            _.filter(this.project.networks, (nw) => n.isEqual(nw.name));
-        nwsToConnectTo.push(...relevantNws);
-      });
-    }
-
-    // now connect each network one by one to the provided
-    // container
-    nwsToConnectTo.forEach(
-        async (nw) => await nw.connect(this.docker, container));
   }
 
   private _promisifyStream(stream: any) {

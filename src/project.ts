@@ -1,19 +1,19 @@
 import * as _ from 'lodash';
 
 import {ValidationError} from './errors';
-import {Network} from './network';
 import {ProjectConfig} from './project-config';
-import {Service} from './service';
 import {ComposeSpec} from './types/compose-spec';
 import {ComposeVersion} from './types/compose-version';
+import {NetworkDefinition} from './types/network';
 import {NetworkName} from './types/network-name';
+import {ServiceDefinition} from './types/service';
 import {ServiceName} from './types/service-name';
 import {convertToJSON} from './yaml-to-json';
 
 export class Project {
   public readonly version: ComposeVersion;
-  public readonly services: Service[];
-  public readonly networks: Network[];
+  public readonly services: ServiceDefinition[];
+  public readonly networks: NetworkDefinition[];
 
   public constructor(readonly config: ProjectConfig) {
     let composeSpec: ComposeSpec;
@@ -45,7 +45,8 @@ export class Project {
         }
 
         const networkName = new NetworkName(key);
-        const network = new Network(networkName, composeSpec.networks[key]);
+        const network =
+            new NetworkDefinition(networkName, composeSpec.networks[key]);
         this.networks.push(network);
       }
     } else {
@@ -60,7 +61,7 @@ export class Project {
       }
 
       const networkName = new NetworkName(nwName);
-      const network = new Network(networkName, {driver: 'bridge'});
+      const network = new NetworkDefinition(networkName, {driver: 'bridge'});
       this.networks.push(network);
     }
   }
@@ -74,7 +75,8 @@ export class Project {
       }
 
       const serviceName = new ServiceName(key);
-      const service = new Service(serviceName, composeSpec.services[key]);
+      const service =
+          new ServiceDefinition(serviceName, composeSpec.services[key]);
 
       this.services.push(service);
     }

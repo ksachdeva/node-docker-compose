@@ -2,7 +2,7 @@ import Docker from 'dockerode';
 import * as _ from 'lodash';
 import winston from 'winston';
 
-import {ContainerName, Service} from './types';
+import {ContainerName, ServiceDefinition} from './types';
 
 export type AvailableContainers = Docker.ContainerInfo[];
 export type NotAvailableContainers = ContainerName[];
@@ -65,7 +65,7 @@ export class Container {
     }));
   }
 
-  public static create(dc: Docker, service: Service):
+  public static create(dc: Docker, service: ServiceDefinition):
       Promise<Docker.Container> {
     winston.info(
         `Creating container ${service.containerName} for ${service.name} ..`);

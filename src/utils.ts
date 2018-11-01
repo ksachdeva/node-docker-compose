@@ -1,9 +1,10 @@
 import {DepGraph} from 'dependency-graph';
 import * as _ from 'lodash';
 
-import {Service} from './service';
+import {ServiceDefinition} from './types/service';
 
-export function getOrderedServiceList(services: Service[]): Service[] {
+export function getOrderedServiceList(services: ServiceDefinition[]):
+    ServiceDefinition[] {
   const graph = new DepGraph();
 
   // build the nodes of the graph first
