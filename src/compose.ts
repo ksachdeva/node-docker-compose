@@ -5,7 +5,6 @@ import winston from 'winston';
 import {Container} from './container';
 import {NetworkManager} from './network-manager';
 import {ContainerName, Project} from './types';
-import {getOrderedServiceList} from './utils';
 
 export class Compose {
   private docker: Docker;
@@ -14,9 +13,6 @@ export class Compose {
   }
 
   public async up(): Promise<void> {
-    // get the ordered list
-    const services = getOrderedServiceList(this.project.services);
-
     // pull the images first before modifying/changing anything
     // this way even if there are failures there is no n/w creation
     // at this point of time
@@ -39,7 +35,7 @@ export class Compose {
     });
 
     // create the containers in sequence
-    for (const s of services) {
+    for (const s of this.project.services) {
       winston.debug('Create the container ..');
       const container = await Container.create(this.docker, s);
 
@@ -58,7 +54,14 @@ export class Compose {
   }
 
   public async down(): Promise<void> {
-    // this one brings down the project
+    // stop the containers
+    // create and remove containers in sequence
+    winston.debug('Stopping all containers ..');
+    await this.remove(true, true);
+
+    // remove the networks
+    // How do we know that the network belongs to this particular docker-compose
+    // project ?
   }
 
   public async pull(): Promise<void> {
@@ -70,7 +73,10 @@ export class Compose {
   }
 
   public async kill(): Promise<void> {
-    const toQuery = this.project.services.map((s) => s.containerName);
+    // we need to reverse the order of services
+    const services = _.reverse(this.project.services);
+
+    const toQuery = services.map((s) => s.containerName);
     // TODO: at present I am assuming that container names are specified
     // in the compose file
 
@@ -82,7 +88,10 @@ export class Compose {
   }
 
   public async remove(force: boolean, removeVolumes: boolean): Promise<void> {
-    const toQuery = this.project.services.map((s) => s.containerName);
+    // we need to reverse the order of services
+    const services = _.reverse(this.project.services);
+
+    const toQuery = services.map((s) => s.containerName);
 
     // get the containers that are available
     const [available, notAvailable] = await Container.findAvailable(

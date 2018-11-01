@@ -8,6 +8,7 @@ import {NetworkDefinition} from './types/network';
 import {NetworkName} from './types/network-name';
 import {ServiceDefinition} from './types/service';
 import {ServiceName} from './types/service-name';
+import {getOrderedServiceList} from './utils';
 import {convertToJSON} from './yaml-to-json';
 
 export class Project {
@@ -33,6 +34,9 @@ export class Project {
 
     // finally perform the validation
     this._validateComposeSpec();
+
+    // get the ordered list
+    this.services = getOrderedServiceList(this.services);
   }
 
   private _parseNetworks(composeSpec: ComposeSpec) {

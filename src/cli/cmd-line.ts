@@ -4,7 +4,7 @@ import * as path from 'path';
 
 import {ProjectConfig} from '../project-config';
 
-import {KillAction, PullAction, RemoveAction, UpAction} from './actions';
+import {DownAction, KillAction, PullAction, RemoveAction, UpAction} from './actions';
 
 export class AppCommandLine extends CommandLineParser {
   public config: ProjectConfig;
@@ -70,5 +70,6 @@ export class AppCommandLine extends CommandLineParser {
     this.addAction(new PullAction(this));
     this.addAction(new KillAction(this));
     this.addAction(new RemoveAction(this));
+    this.addAction(new DownAction(this));
   }
 }
