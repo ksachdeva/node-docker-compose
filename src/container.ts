@@ -73,7 +73,10 @@ export class Container {
     const opts: Docker.ContainerCreateOptions = {
       Image: service.imageName.name,
       name: (service.containerName as ContainerName).name,
-      HostConfig: {RestartPolicy: {Name: service.restart}}
+      HostConfig: {
+        RestartPolicy: {Name: service.restart},
+        Privileged: service.privileged
+      }
     };
 
     if (service.ports.length > 0) {

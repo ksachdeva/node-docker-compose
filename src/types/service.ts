@@ -15,6 +15,7 @@ export class ServiceDefinition {
   public readonly dependsOn: ServiceName[];
   public readonly restart: Restart = '';
   public readonly networks: NetworkName[];
+  public readonly privileged: boolean;
 
   public constructor(serviceName: ServiceName, serviceSpec: ServiceSpec) {
     this.name = serviceName;
@@ -23,6 +24,7 @@ export class ServiceDefinition {
     this.dependsOn = [];
     this.networks = [];
     this.containerName = null;
+    this.privileged = false;
 
     if (serviceSpec.container_name === undefined) {
       throw new ValidationError(
@@ -47,6 +49,10 @@ export class ServiceDefinition {
     if (serviceSpec.networks !== undefined) {
       this.networks =
           serviceSpec.networks.map((s: string) => new NetworkName(s));
+    }
+
+    if (serviceSpec.privileged) {
+      this.privileged = serviceSpec.privileged;
     }
   }
 }

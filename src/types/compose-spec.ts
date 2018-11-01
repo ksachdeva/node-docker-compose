@@ -9,6 +9,7 @@ export interface ServiceSpec {
   volumes?: string[];
   networks?: string[];
   depends_on?: string[];
+  privileged?: boolean;
 }
 
 export interface NetworkSpec {
