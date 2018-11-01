@@ -1,11 +1,11 @@
 import {Port} from './alias';
 
 export class PortMap {
-  public readonly src: Port;
-  public readonly dst: Port;
+  public readonly host: Port;
+  public readonly container: Port;
 
   public constructor(portMap: string) {
-    this.src = parseInt(portMap.substr(0, portMap.lastIndexOf(':')), 10);
-    this.dst = parseInt(portMap.substr(portMap.lastIndexOf(':') + 1), 10);
+    this.host = parseInt(portMap.substr(0, portMap.lastIndexOf(':')), 10);
+    this.container = parseInt(portMap.substr(portMap.lastIndexOf(':') + 1), 10);
   }
 }

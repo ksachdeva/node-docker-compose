@@ -17,6 +17,6 @@ export interface NetworkSpec {
 
 export interface ComposeSpec {
   version: ComposeVersion;
-  services: {[key: string]: ServiceSpec;};
+  services: {[key: string]: ServiceSpec};
   networks?: {[key: string]: NetworkSpec};
 }

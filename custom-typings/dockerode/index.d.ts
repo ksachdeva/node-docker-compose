@@ -535,6 +535,15 @@ declare namespace Dockerode {
     };
   }
 
+  interface PortBinding {
+    HostIp?: string;
+    HostPort?: string;
+  }
+
+  interface PortMap {
+    [key: string]: Array<PortBinding>
+  }
+
   interface ContainerCreateOptions {
     name?: string;
     Hostname?: string;
@@ -582,8 +591,7 @@ declare namespace Dockerode {
       OomScoreAdj?: number;
       PidMode?: string;
       PidsLimit?: number;
-      PortBindings?:
-          {[portAndProtocol: string]: Array<{[index: string]: string}>};
+      PortBindings?: PortMap;
       PublishAllPorts?: boolean;
       Privileged?: boolean;
       ReadonlyRootfs?: boolean;

@@ -69,10 +69,21 @@ export class Container {
       Promise<Docker.Container> {
     winston.info(
         `Creating container ${service.containerName} for ${service.name} ..`);
-    return dc.createContainer({
+
+    const opts: Docker.ContainerCreateOptions = {
       Image: service.imageName.name,
-      name: (service.containerName as ContainerName).name
-    });
+      name: (service.containerName as ContainerName).name,
+    };
+
+    if (service.ports.length > 0) {
+      const portBindings: Docker.PortMap = {};
+      for (const p of service.ports) {
+        portBindings[`${p.container}/tcp`] = [{HostPort: p.host.toString()}];
+      }
+      opts.HostConfig = {PortBindings: portBindings};
+    }
+
+    return dc.createContainer(opts);
   }
 
   public static start(dc: Docker, container: Docker.Container) {
