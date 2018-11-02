@@ -10,6 +10,7 @@ export interface ServiceSpec {
   networks?: string[];
   depends_on?: string[];
   privileged?: boolean;
+  command?: string[];
 }
 
 export interface NetworkSpec {

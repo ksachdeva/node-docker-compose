@@ -88,6 +88,10 @@ export class Container {
       }
     };
 
+    if (service.cmd) {
+      opts.Cmd = service.cmd;
+    }
+
     if (service.ports.length > 0) {
       const portBindings: Docker.PortMap = {};
       for (const p of service.ports) {

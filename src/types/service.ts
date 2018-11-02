@@ -18,6 +18,7 @@ export class ServiceDefinition {
   public readonly networks: NetworkName[];
   public readonly privileged: boolean;
   public readonly volumes: VolumeDefinition[];
+  public readonly cmd: string[]|undefined;
 
   public constructor(
       serviceName: ServiceName, serviceSpec: ServiceSpec,
@@ -63,5 +64,14 @@ export class ServiceDefinition {
     if (serviceSpec.volumes) {
       this.volumes = serviceSpec.volumes.map((v) => new VolumeDefinition(v));
     }
+
+    if (serviceSpec.command) {
+      if (typeof (serviceSpec.command) === 'string') {
+        throw new ValidationError(
+            'Only support an array of strings as the value of command field');
+      }
+    }
+
+    this.cmd = serviceSpec.command;
   }
 }
