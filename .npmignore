@@ -9,3 +9,4 @@ aot
 .idea/
 jest.config.js
 coverage
+custom-typings
