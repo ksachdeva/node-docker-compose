@@ -10,3 +10,5 @@ aot
 jest.config.js
 coverage
 custom-typings
+testdata
+.vscode
