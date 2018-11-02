@@ -557,6 +557,12 @@ declare namespace Dockerode {
     Config?: {[key: string]: string;}
   }
 
+  interface DeviceMapping {
+    PathOnHost: string;
+    PathinContainer: string;
+    CgroupPermissions: string;
+  }
+
   interface ContainerCreateOptions {
     name?: string;
     Hostname?: string;
@@ -618,7 +624,7 @@ declare namespace Dockerode {
       GroupAdd?: string[];
       RestartPolicy?: RestartPolicy;
       NetworkMode?: string;
-      Devices?: any[];
+      Devices?: DeviceMapping[];
       Sysctls?: {[index: string]: string};
       Ulimits?: Array<{}>;
       LogConfig?: LogConfig;

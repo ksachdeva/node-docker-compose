@@ -14,6 +14,7 @@ export interface ServiceSpec {
   command?: string[];
   logging?:
       {driver: Docker.LoggingDriverType; options?: {[key: string]: string}};
+  devices?: string[];
 }
 
 export interface NetworkSpec {

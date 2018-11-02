@@ -3,6 +3,7 @@ import {ValidationError} from '../errors';
 import {Restart} from './alias';
 import {ServiceSpec} from './compose-spec';
 import {ContainerName} from './container-name';
+import {DeviceDefinition} from './device';
 import {ImageName} from './image-name';
 import {LoggingDefinition} from './logging';
 import {NetworkName} from './network-name';
@@ -22,6 +23,7 @@ export class ServiceDefinition {
   public readonly volumes: VolumeDefinition[];
   public readonly cmd: string[]|undefined;
   public readonly logging: LoggingDefinition;
+  public readonly devices: DeviceDefinition[];
 
   public constructor(
       serviceName: ServiceName, serviceSpec: ServiceSpec,
@@ -34,6 +36,7 @@ export class ServiceDefinition {
     this.volumes = [];
     this.containerName = null;
     this.privileged = false;
+    this.devices = [];
 
     if (serviceSpec.container_name === undefined) {
       throw new ValidationError(
@@ -80,6 +83,10 @@ export class ServiceDefinition {
     if (serviceSpec.logging) {
       this.logging = new LoggingDefinition(
           serviceSpec.logging.driver, serviceSpec.logging.options);
+    }
+
+    if (serviceSpec.devices) {
+      this.devices = serviceSpec.devices.map((d) => new DeviceDefinition(d));
     }
   }
 }

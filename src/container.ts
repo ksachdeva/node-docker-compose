@@ -117,6 +117,18 @@ export class Container {
       }
     }
 
+    if (service.devices.length > 0) {
+      if (opts.HostConfig) {
+        opts.HostConfig.Devices = service.devices.map((d) => {
+          return {
+            PathOnHost: d.hostPath,
+            PathinContainer: d.containerPath,
+            CgroupPermissions: 'rwm'
+          } as Docker.DeviceMapping;
+        });
+      }
+    }
+
     return dc.createContainer(opts);
   }
 
