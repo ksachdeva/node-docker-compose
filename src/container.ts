@@ -92,6 +92,15 @@ export class Container {
       opts.Cmd = service.cmd;
     }
 
+    if (service.logging) {
+      if (opts.HostConfig) {
+        opts.HostConfig.LogConfig = {Type: service.logging.driver};
+        if (service.logging.options) {
+          opts.HostConfig.LogConfig.Config = service.logging.options;
+        }
+      }
+    }
+
     if (service.ports.length > 0) {
       const portBindings: Docker.PortMap = {};
       for (const p of service.ports) {

@@ -4,6 +4,7 @@ services:
   ubuntu:
     image: ubuntu:latest
     container_name: sleeper
-    command: ["/bin/sh", "-c", "while true; do echo hello world; sleep 1; done"]
-    #command: /bin/sh -c "while true; do echo hello world; sleep 1; done"
+    command: ["/bin/sh", "-c", "while true; do echo hello world; sleep 1; done"] 
+
+
 

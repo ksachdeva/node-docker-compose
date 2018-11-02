@@ -1,4 +1,4 @@
-import {NetworkDriverType, Restart} from './alias';
+import {LoggingDriverType, NetworkDriverType, Restart} from './alias';
 import {ComposeVersion} from './compose-version';
 
 export interface ServiceSpec {
@@ -11,6 +11,7 @@ export interface ServiceSpec {
   depends_on?: string[];
   privileged?: boolean;
   command?: string[];
+  logging?: {driver: LoggingDriverType; options?: {[key: string]: string}};
 }
 
 export interface NetworkSpec {

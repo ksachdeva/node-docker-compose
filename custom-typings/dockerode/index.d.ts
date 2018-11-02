@@ -549,6 +549,14 @@ declare namespace Dockerode {
     MaximumRetryCount?: number;
   }
 
+  type LoggingDriverType = 'json-file'|'syslog'|'journald'|'gelf'|'fluentd'|
+      'awslogs'|'splunk'|'etwlogs'|'none';
+
+  interface LogConfig {
+    Type: LoggingDriverType;
+    Config?: {[key: string]: string;}
+  }
+
   interface ContainerCreateOptions {
     name?: string;
     Hostname?: string;
@@ -613,7 +621,7 @@ declare namespace Dockerode {
       Devices?: any[];
       Sysctls?: {[index: string]: string};
       Ulimits?: Array<{}>;
-      LogConfig?: {[index: string]: string | {}};
+      LogConfig?: LogConfig;
       SecurityOpt?: {[index: string]: any};
       CgroupParent?: string;
       VolumeDriver?: string;

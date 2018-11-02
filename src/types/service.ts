@@ -1,8 +1,10 @@
 import {ValidationError} from '../errors';
+
 import {Restart} from './alias';
 import {ServiceSpec} from './compose-spec';
 import {ContainerName} from './container-name';
 import {ImageName} from './image-name';
+import {LoggingDefinition} from './logging';
 import {NetworkName} from './network-name';
 import {PortMap} from './port-map';
 import {ServiceName} from './service-name';
@@ -19,6 +21,7 @@ export class ServiceDefinition {
   public readonly privileged: boolean;
   public readonly volumes: VolumeDefinition[];
   public readonly cmd: string[]|undefined;
+  public readonly logging: LoggingDefinition;
 
   public constructor(
       serviceName: ServiceName, serviceSpec: ServiceSpec,
@@ -73,5 +76,10 @@ export class ServiceDefinition {
     }
 
     this.cmd = serviceSpec.command;
+
+    if (serviceSpec.logging) {
+      this.logging = new LoggingDefinition(
+          serviceSpec.logging.driver, serviceSpec.logging.options);
+    }
   }
 }
