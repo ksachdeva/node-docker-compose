@@ -4,7 +4,8 @@ import winston from 'winston';
 
 import {Container} from './container';
 import {NetworkManager} from './network-manager';
-import {ContainerName, Project} from './types';
+import {Project} from './project';
+import {ContainerName} from './types';
 
 export class Compose {
   private docker: Docker;
