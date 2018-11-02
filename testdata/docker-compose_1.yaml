@@ -7,3 +7,5 @@ services:
     ports:
       - "9200:9200"
       - "9300:9300"
+    volumes:
+      - /Users/ksachdeva/Desktop/Dev/myoss/node-docker-compose/testdata/es-data:/usr/share/elasticsearch/data

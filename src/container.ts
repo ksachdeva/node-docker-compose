@@ -89,6 +89,12 @@ export class Container {
       }
     }
 
+    if (service.volumes.length > 0) {
+      if (opts.HostConfig) {
+        opts.HostConfig.Binds = service.volumes.map((v) => v.value);
+      }
+    }
+
     return dc.createContainer(opts);
   }
 

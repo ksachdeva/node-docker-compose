@@ -6,6 +6,7 @@ import {ImageName} from './image-name';
 import {NetworkName} from './network-name';
 import {PortMap} from './port-map';
 import {ServiceName} from './service-name';
+import {VolumeDefinition} from './volume';
 
 export class ServiceDefinition {
   public readonly name: ServiceName;
@@ -16,6 +17,7 @@ export class ServiceDefinition {
   public readonly restart: Restart = '';
   public readonly networks: NetworkName[];
   public readonly privileged: boolean;
+  public readonly volumes: VolumeDefinition[];
 
   public constructor(serviceName: ServiceName, serviceSpec: ServiceSpec) {
     this.name = serviceName;
@@ -23,6 +25,7 @@ export class ServiceDefinition {
     this.ports = [];
     this.dependsOn = [];
     this.networks = [];
+    this.volumes = [];
     this.containerName = null;
     this.privileged = false;
 
@@ -53,6 +56,10 @@ export class ServiceDefinition {
 
     if (serviceSpec.privileged) {
       this.privileged = serviceSpec.privileged;
+    }
+
+    if (serviceSpec.volumes) {
+      this.volumes = serviceSpec.volumes.map((v) => new VolumeDefinition(v));
     }
   }
 }
