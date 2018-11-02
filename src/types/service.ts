@@ -19,7 +19,9 @@ export class ServiceDefinition {
   public readonly privileged: boolean;
   public readonly volumes: VolumeDefinition[];
 
-  public constructor(serviceName: ServiceName, serviceSpec: ServiceSpec) {
+  public constructor(
+      serviceName: ServiceName, serviceSpec: ServiceSpec,
+      readonly projectName: string) {
     this.name = serviceName;
     this.imageName = new ImageName(serviceSpec.image);
     this.ports = [];

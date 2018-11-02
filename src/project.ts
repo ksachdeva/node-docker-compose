@@ -79,8 +79,8 @@ export class Project {
       }
 
       const serviceName = new ServiceName(key);
-      const service =
-          new ServiceDefinition(serviceName, composeSpec.services[key]);
+      const service = new ServiceDefinition(
+          serviceName, composeSpec.services[key], this.config.projectName);
 
       this.services.push(service);
     }

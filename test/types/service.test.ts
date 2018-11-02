@@ -11,8 +11,8 @@ describe('types/service', () => {
       networks: ['docker_elk']
     };
 
-    const service =
-        new ServiceDefinition(new ServiceName('aservice'), serviceSpec);
+    const service = new ServiceDefinition(
+        new ServiceName('aservice'), serviceSpec, 'testdata');
 
     // basic asserts
     // expect(service.containerName).toBeNull();
@@ -25,7 +25,7 @@ describe('types/service', () => {
     expect(service.imageName.tag.name).toEqual('6.4.2');
 
     expect(service.networks[0].name).toEqual('docker_elk');
-    expect(service.ports[0].src).toEqual(9200);
-    expect(service.ports[0].dst).toEqual(9201);
+    expect(service.ports[0].host).toEqual(9200);
+    expect(service.ports[0].container).toEqual(9201);
   });
 });

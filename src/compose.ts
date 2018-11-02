@@ -35,9 +35,10 @@ export class Compose {
     });
 
     // create the containers in sequence
-    for (const s of this.project.services) {
+    for (let i = 0; i < this.project.services.length; i++) {
+      const s = this.project.services[i];
       winston.debug('Create the container ..');
-      const container = await Container.create(this.docker, s);
+      const container = await Container.create(this.docker, s, (i + 1));
 
       // attach the desired network with this container
       // if a service does not have a network specified then

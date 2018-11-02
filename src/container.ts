@@ -2,6 +2,8 @@ import Docker from 'dockerode';
 import * as _ from 'lodash';
 import winston from 'winston';
 
+// tslint:disable-next-line:max-line-length
+import {CONTAINER_NUMBER_LABEL, NODE_DOCKER_COMPOSE_VERSION, PROJECT_LABEL, SERVICE_LABEL, VERSION_LABEL} from './consts';
 import {ContainerName, ServiceDefinition} from './types';
 
 export type AvailableContainers = Docker.ContainerInfo[];
@@ -65,8 +67,9 @@ export class Container {
     }));
   }
 
-  public static create(dc: Docker, service: ServiceDefinition):
-      Promise<Docker.Container> {
+  public static create(
+      dc: Docker, service: ServiceDefinition,
+      containerIdx: number): Promise<Docker.Container> {
     winston.info(
         `Creating container ${service.containerName} for ${service.name} ..`);
 
@@ -76,6 +79,12 @@ export class Container {
       HostConfig: {
         RestartPolicy: {Name: service.restart},
         Privileged: service.privileged
+      },
+      Labels: {
+        [PROJECT_LABEL]: service.projectName,
+        [VERSION_LABEL]: NODE_DOCKER_COMPOSE_VERSION,
+        [SERVICE_LABEL]: service.name.name,
+        [CONTAINER_NUMBER_LABEL]: containerIdx.toString()
       }
     };
 
