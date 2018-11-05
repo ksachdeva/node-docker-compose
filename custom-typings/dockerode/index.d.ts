@@ -814,6 +814,13 @@ declare namespace Dockerode {
     src: string[];
   }
 
+  interface AuthConfig {
+    username: string;
+    password: string;
+    serveraddress: string;
+    email?: string;
+  }
+
   interface DockerVersion {
     ApiVersion: string;
     Arch: string;

@@ -13,12 +13,12 @@ export class Compose {
     this.docker = new Docker({socketPath: '/var/run/docker.sock'});
   }
 
-  public async up(): Promise<void> {
+  public async up(authConfig?: Docker.AuthConfig): Promise<void> {
     // pull the images first before modifying/changing anything
     // this way even if there are failures there is no n/w creation
     // at this point of time
     winston.debug('Pulling the images ..');
-    await this.pull();
+    await this.pull(authConfig);
 
     // get the list of existing networks
     winston.debug('List the existing networks ..');
@@ -66,10 +66,11 @@ export class Compose {
     // project ?
   }
 
-  public async pull(): Promise<void> {
+  public async pull(authConfig?: Docker.AuthConfig): Promise<void> {
     // pull them sequentially for now
     for (const s of this.project.services) {
-      const pullStream = await this.docker.pull(s.imageName.name, {});
+      const pullStream =
+          await this.docker.pull(s.imageName.name, {authconfig: authConfig});
       await this._promisifyStream(pullStream);
     }
   }
