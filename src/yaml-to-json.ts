@@ -11,7 +11,6 @@ export function convertToJSON(
   if (env) {
     // now patch any environment variables
     content = patchEnvironmentVariables(content, env);
-    console.log(content);
   }
 
   // TODO : translate YAML errors to custom errors
