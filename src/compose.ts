@@ -13,7 +13,7 @@ export class Compose {
     this.docker = new Docker({socketPath: '/var/run/docker.sock'});
   }
 
-  public async up(authConfig?: Docker.AuthConfig): Promise<void> {
+  public async up(authConfig?: Docker.AuthConfig[]): Promise<void> {
     // pull the images first before modifying/changing anything
     // this way even if there are failures there is no n/w creation
     // at this point of time
@@ -66,11 +66,22 @@ export class Compose {
     // project ?
   }
 
-  public async pull(authConfig?: Docker.AuthConfig): Promise<void> {
+  public async pull(authConfig?: Docker.AuthConfig[]): Promise<void> {
     // pull them sequentially for now
     for (const s of this.project.services) {
-      const pullStream =
-          await this.docker.pull(s.imageName.name, {authconfig: authConfig});
+      // The authentication config is to be specified
+      // per service image
+
+      let authconfig;
+      if (authConfig && authConfig.length > 0) {
+        // see if there is one that starts with our repo name
+        authconfig = _.find(
+            authConfig,
+            (c: Docker.AuthConfig) =>
+                s.imageName.name.startsWith(c.serveraddress));
+      }
+
+      const pullStream = await this.docker.pull(s.imageName.name, {authconfig});
       await this._promisifyStream(pullStream);
     }
   }
