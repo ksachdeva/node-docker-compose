@@ -19,7 +19,8 @@ export class Project {
   public constructor(readonly config: ProjectConfig) {
     let composeSpec: ComposeSpec;
     if (typeof (config.composeSpec) === 'string') {
-      composeSpec = convertToJSON(config.composeSpec as string);
+      composeSpec = convertToJSON(
+          config.composeSpec as string, config.environmentVariables);
     } else {
       composeSpec = config.composeSpec as ComposeSpec;
     }

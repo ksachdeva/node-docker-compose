@@ -21,3 +21,51 @@ export function getOrderedServiceList(services: ServiceDefinition[]):
 
   return od.map((o) => services.filter((s) => s.name.name === o)[0]);
 }
+
+const ENVIRONMENT_VARIABLES_REGEX = [
+  {
+    lhs: '\\\$',
+    cleanLhs: '$',
+    val: '[a-zA-Z_]+[a-zA-Z0-9_]*',
+    rhs: '',
+    sep: ''
+  },
+  {
+    lhs: '\\\${',
+    cleanLhs: '${',
+    val: '[a-zA-Z_]+[a-zA-Z0-9_]*',
+    rhs: '}',
+    sep: ' *'
+  }
+];
+
+export function patchEnvironmentVariables(
+    text: string, env: {[key: string]: string}) {
+  // we run each regular express once and then patch the output
+  let result: string = text;
+  // tslint:disable-next-line:prefer-for-of
+  for (let i = 0; i < ENVIRONMENT_VARIABLES_REGEX.length; i++) {
+    const regExpObj = ENVIRONMENT_VARIABLES_REGEX[i];
+    const regExpStr = `${regExpObj.lhs}${regExpObj.sep}${regExpObj.val}${
+        regExpObj.sep}${regExpObj.rhs}`;
+    const matches = result.match(new RegExp(regExpStr, 'g'));
+
+    // perform the substitution
+    if (matches !== null) {
+      // tslint:disable-next-line:prefer-for-of
+      for (let j = 0; j < matches.length; j++) {
+        const envVarName = matches[j]
+                               .replace(regExpObj.cleanLhs, '')
+                               .replace(regExpObj.rhs, '')
+                               .trim();
+        const envVarValue = env[envVarName];
+
+        if (envVarValue) {
+          result = result.replace(matches[j], envVarValue || '');
+        }
+      }
+    }
+  }
+
+  return result;
+}

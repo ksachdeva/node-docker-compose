@@ -1,9 +1,8 @@
 import {CommandLineParser, CommandLineStringParameter} from '@microsoft/ts-command-line';
+import dotenv from 'dotenv';
 import * as fs from 'fs-extra';
 import * as path from 'path';
-
 import {ProjectConfig} from '../project-config';
-
 import {DownAction, KillAction, PullAction, RemoveAction, UpAction} from './actions';
 
 export class AppCommandLine extends CommandLineParser {
@@ -60,6 +59,19 @@ export class AppCommandLine extends CommandLineParser {
       this.config.projectName = `${dname}_default`;
     } else {
       this.config.projectName = this._projectName.value as string;
+    }
+
+    // check if there is any .env file in the project directory
+    const envFilePath = path.resolve(
+        path.join(path.dirname(this._composeFile.value as string), '.env'));
+
+    if (fs.pathExistsSync(envFilePath)) {
+      // here I am only passing the explicitly defined environment
+      // variables
+      // what about system defined environment variables ?
+      // TODO: may be merge them ?
+      const envFileContent = fs.readFileSync(envFilePath, 'utf8');
+      this.config.environmentVariables = dotenv.parse(envFileContent);
     }
 
     return super.onExecute();

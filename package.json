@@ -22,6 +22,7 @@
   "author": "Kapil Sachdeva",
   "license": "Apache-2.0",
   "devDependencies": {
+    "@types/dotenv": "^4.0.3",
     "@types/fs-extra": "^5.0.4",
     "@types/jest": "^23.3.8",
     "@types/js-yaml": "^3.11.2",
@@ -37,6 +38,7 @@
     "@microsoft/ts-command-line": "^4.2.1",
     "dependency-graph": "^0.7.2",
     "dockerode": "^2.5.7",
+    "dotenv": "^6.1.0",
     "fs-extra": "^7.0.0",
     "js-yaml": "^3.12.0",
     "lodash": "^4.17.11",

@@ -4,4 +4,5 @@ export interface ProjectConfig {
   projectName: string;
   composeSpec: string|ComposeSpec;
   pull: boolean;
+  environmentVariables?: {[key: string]: string};
 }
