@@ -1,31 +1,34 @@
 import Docker from 'dockerode';
 import * as _ from 'lodash';
-import winston from 'winston';
+import {Logger} from 'winston';
 
 import {Container} from './container';
+import {buildLogger} from './logger';
 import {NetworkManager} from './network-manager';
 import {Project} from './project';
 import {ContainerName} from './types';
 
 export class Compose {
   private docker: Docker;
+  private logger: Logger;
   public constructor(private readonly project: Project) {
     this.docker = new Docker({socketPath: '/var/run/docker.sock'});
+    this.logger = buildLogger('info');
   }
 
   public async up(authConfig?: Docker.AuthConfig[]): Promise<void> {
     // pull the images first before modifying/changing anything
     // this way even if there are failures there is no n/w creation
     // at this point of time
-    winston.debug('Pulling the images ..');
+    this.logger.debug('Pulling the images ..');
     await this.pull(authConfig);
 
     // get the list of existing networks
-    winston.debug('List the existing networks ..');
+    this.logger.debug('List the existing networks ..');
     let existingNetworks = await NetworkManager.list(this.docker);
 
     // create the networks for the project
-    winston.debug('Create the networks that do not exist ..');
+    this.logger.debug('Create the networks that do not exist ..');
     existingNetworks = await NetworkManager.create(
         this.docker, this.project.networks, existingNetworks);
 
@@ -38,19 +41,19 @@ export class Compose {
     // create the containers in sequence
     for (let i = 0; i < this.project.services.length; i++) {
       const s = this.project.services[i];
-      winston.debug('Create the container ..');
+      this.logger.debug('Create the container ..');
       const container = await Container.create(this.docker, s, (i + 1));
 
       // attach the desired network with this container
       // if a service does not have a network specified then
       // we attach it to the project network else we find the network to attach
       // to
-      winston.debug('Attaching networks ..');
+      this.logger.debug('Attaching networks ..');
       await NetworkManager.attachNetworks(
           this.docker, s, container, networksForDefinition);
 
       // finally start the container
-      winston.debug('Start the container ..');
+      this.logger.debug('Start the container ..');
       await Container.start(this.docker, container);
     }
   }
@@ -58,7 +61,7 @@ export class Compose {
   public async down(): Promise<void> {
     // stop the containers
     // create and remove containers in sequence
-    winston.debug('Stopping all containers ..');
+    this.logger.debug('Stopping all containers ..');
     await this.remove(true, true);
 
     // remove the networks
@@ -117,7 +120,11 @@ export class Compose {
 
   private _promisifyStream(stream: any) {
     return new Promise((resolve, reject) => {
-      stream.on('data', (d: any) => console.log(d.toString()));
+      stream.on(
+          'data',
+          (d: any) => {
+              // this.logger.debug(d.toString());
+          });
       stream.on('end', resolve);
       stream.on('error', reject);
     });

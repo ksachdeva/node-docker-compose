@@ -1,7 +1,7 @@
 import Docker, {NetworkInspectInfo} from 'dockerode';
 import * as _ from 'lodash';
 import {ServiceDefinition} from 'service';
-import winston from 'winston';
+import {getLogger} from './logger';
 
 import {NetworkDefinition} from './types/network';
 
@@ -26,7 +26,7 @@ export class NetworkManager {
       // dockrode instead of returning the network info
       // returns Docker.Network and does not even cache
       // result
-      winston.info(`Creating network ${n.name} ..`);
+      getLogger().info(`Creating network ${n.name} ..`);
       const dn: Docker.Network =
           await dc.createNetwork({Name: n.name.name, Driver: n.driver});
 
@@ -42,7 +42,7 @@ export class NetworkManager {
   }
 
   public static connect(network: Docker.Network, container: Docker.Container) {
-    winston.info(
+    getLogger().info(
         `Connecting container ${container.id} to network ${network.id} ..`);
     return network.connect({Container: container.id});
   }
@@ -68,7 +68,7 @@ export class NetworkManager {
 
     // now we connect our container to these networks
     for (const nw of nwsToConnectTo) {
-      winston.info(`Connection ${nw.Name} to ${container.id} ...`);
+      getLogger().info(`Connecting ${nw.Name} to ${container.id} ...`);
       await NetworkManager.connect(dc.getNetwork(nw.Id), container);
     }
   }

@@ -1,9 +1,9 @@
 import Docker from 'dockerode';
 import * as _ from 'lodash';
-import winston from 'winston';
 
 // tslint:disable-next-line:max-line-length
 import {CONTAINER_NUMBER_LABEL, NODE_DOCKER_COMPOSE_VERSION, PROJECT_LABEL, SERVICE_LABEL, VERSION_LABEL} from './consts';
+import {getLogger} from './logger';
 import {ContainerName, ServiceDefinition} from './types';
 
 export type AvailableContainers = Docker.ContainerInfo[];
@@ -29,7 +29,7 @@ export class Container {
           return c1.isEqual(c2);
         });
 
-    listedContainers.forEach((l) => winston.debug(`Found ${l} ..`));
+    listedContainers.forEach((l) => getLogger().debug(`Found ${l} ..`));
 
     const notAvailableContainers =
         _.differenceWith(containersToQuery, listedContainers, (c1, c2) => {
@@ -53,7 +53,7 @@ export class Container {
 
   public static async kill(dc: Docker, containers: AvailableContainers) {
     await Promise.all(containers.map((c) => {
-      winston.info(`Killing ${c.Names[0]} ... `);
+      getLogger().info(`Killing ${c.Names[0]} ... `);
       dc.getContainer(c.Id).kill();
     }));
   }
@@ -62,7 +62,7 @@ export class Container {
       dc: Docker, containers: AvailableContainers, force: boolean,
       removeVolumes: boolean) {
     await Promise.all(containers.map((c) => {
-      winston.info(`Removing ${c.Names[0]} ... `);
+      getLogger().info(`Removing ${c.Names[0]} ... `);
       dc.getContainer(c.Id).remove({force, v: removeVolumes});
     }));
   }
@@ -70,7 +70,7 @@ export class Container {
   public static create(
       dc: Docker, service: ServiceDefinition,
       containerIdx: number): Promise<Docker.Container> {
-    winston.info(
+    getLogger().info(
         `Creating container ${service.containerName} for ${service.name} ..`);
 
     const opts: Docker.ContainerCreateOptions = {
@@ -133,7 +133,7 @@ export class Container {
   }
 
   public static start(dc: Docker, container: Docker.Container) {
-    winston.info(`Starting the container ${container.id} ..`);
+    getLogger().info(`Starting the container ${container.id} ..`);
     return container.start();
   }
 }
