@@ -93,7 +93,7 @@ export class Compose {
 
   public async kill(): Promise<void> {
     // we need to reverse the order of services
-    const services = _.reverse(this.project.services);
+    const services = Array.from(this.project.services).reverse();
 
     const toQuery = services.map((s) => s.containerName);
     // TODO: at present I am assuming that container names are specified
@@ -108,7 +108,7 @@ export class Compose {
 
   public async remove(force: boolean, removeVolumes: boolean): Promise<void> {
     // we need to reverse the order of services
-    const services = _.reverse(this.project.services);
+    const services = Array.from(this.project.services).reverse();
 
     const toQuery = services.map((s) => s.containerName);
 
