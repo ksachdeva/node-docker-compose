@@ -29,9 +29,9 @@ import {Compose, Project} from 'node-docker-compose';
 // and merge them in environmentVariables
 const environmentVariables = { MY_ENV_VAR1 : 'value' };
 
-// Create the project
+// Create the project by passing the project config
 const project = new Project({
-    pull : true,
+    pull : true,    // Note - At present no impact
     composeSpec : composeFilePath,
     projectName : 'MyComposeProj',
     environmentVariables: environmentVariables
@@ -40,16 +40,16 @@ const project = new Project({
 const compose = new Compose(project);
 
 // systematically first bring the down the project
-// and remove any containers
+// to remove any containers
 await compose.down();
 
 // bring up the project
 await compose.up();
 
-// if use private registry such as Google Container registry
+// if using private registry such as Google Container registry
 // pass the AuthConfig
 //
-// in below example, it will be used when pulling images that start with 'gcr.io'
+// in below example, it will be used for pulling images that start with 'gcr.io'
 await compose.up([{
     username : 'oauth2accesstoken',
     password : gcrToken,
@@ -65,3 +65,4 @@ await compose.up([{
 - [ ] Support to remove the networks
 - [ ] Config CLI command
 - [ ] Specify the list of environment files (only .env in project directory is supported for now)
+- [ ] If pull is false in ProjectConfig then do not fetch the latest image (if image is already present on the system)
