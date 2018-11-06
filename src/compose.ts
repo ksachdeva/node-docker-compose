@@ -10,12 +10,10 @@ import {Project} from './project';
 import {ContainerName} from './types';
 
 export class Compose {
-  private docker: Docker;
   private logger: Logger;
   public constructor(
-      private readonly project: Project,
+      private readonly project: Project, private readonly docker: Docker,
       loglevel: 'info'|'debug'|'warn'|'error' = 'info') {
-    this.docker = new Docker({socketPath: '/var/run/docker.sock'});
     this.logger = buildLogger(loglevel);
   }
 

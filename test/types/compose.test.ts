@@ -1,3 +1,4 @@
+import Docker from 'dockerode';
 import {Compose} from '../../src/compose';
 import {Project} from '../../src/project';
 import {ComposeSpec, ServiceSpec} from '../../src/types/compose-spec';
@@ -16,7 +17,9 @@ describe('compose', () => {
     const project =
         new Project({projectName: 'test', composeSpec, pull: false});
 
-    const compose = new Compose(project);
+    const docker = new Docker({socketPath: '/var/run/docker.sock'});
+
+    const compose = new Compose(project, docker);
 
     await compose.pull();
   });

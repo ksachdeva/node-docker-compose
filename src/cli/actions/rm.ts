@@ -1,9 +1,10 @@
-import {CommandLineAction, CommandLineFlagParameter} from '@microsoft/ts-command-line';
+import {CommandLineFlagParameter} from '@microsoft/ts-command-line';
 import {Compose} from '../../compose';
 import {Project} from '../../project';
 import {AppCommandLine} from '../cmd-line';
+import {BaseAction} from './base';
 
-export class RemoveAction extends CommandLineAction {
+export class RemoveAction extends BaseAction {
   private force: CommandLineFlagParameter;
   private stop: CommandLineFlagParameter;
   private volume: CommandLineFlagParameter;
@@ -41,8 +42,9 @@ export class RemoveAction extends CommandLineAction {
 
   protected async onExecute(): Promise<void> {
     // build the project
+    await super.onExecute();
     const project = new Project(this._parser.config);
-    const compose = new Compose(project);
+    const compose = new Compose(project, this.docker);
 
     await compose.remove(this.stop.value, this.volume.value);
 
