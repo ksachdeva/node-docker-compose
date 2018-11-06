@@ -13,3 +13,55 @@ You may now suggest - `Just use dockrode to do it`. Your suggestion is valid to 
 That said, at present I am only implementing the constructs/features that I need for my private project and will slowly add the support for other aspects of docker-compose to reach a level of compliance with few (if not all) docker-compose schema versions.
 
 If you think the project has merits please feel free to contribute !
+
+## Installation
+
+```bash
+npm install node-docker-compose
+```
+
+## Quick Start
+
+```ts
+import {Compose, Project} from 'node-docker-compose';
+
+// Tip: use dotenv to read the environment variables
+// and merge them in environmentVariables
+const environmentVariables = { MY_ENV_VAR1 : 'value' };
+
+// Create the project
+const project = new Project({
+    pull : true,
+    composeSpec : composeFilePath,
+    projectName : 'MyComposeProj',
+    environmentVariables: environmentVariables
+  });
+
+const compose = new Compose(project);
+
+// systematically first bring the down the project
+// and remove any containers
+await compose.down();
+
+// bring up the project
+await compose.up();
+
+// if use private registry such as Google Container registry
+// pass the AuthConfig
+//
+// in below example, it will be used when pulling images that start with 'gcr.io'
+await compose.up([{
+    username : 'oauth2accesstoken',
+    password : gcrToken,
+    serveraddress : 'gcr.io'
+}]);
+
+```
+
+## TODO
+
+- [ ] Support skipping creation of containers that already exist for the same project
+- [ ] Callbacks to inform the progress from higher level APIs (such as up and down)
+- [ ] Support to remove the networks
+- [ ] Config CLI command
+- [ ] Specify the list of environment files (only .env in project directory is supported for now)
