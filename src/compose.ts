@@ -11,9 +11,11 @@ import {ContainerName} from './types';
 export class Compose {
   private docker: Docker;
   private logger: Logger;
-  public constructor(private readonly project: Project) {
+  public constructor(
+      private readonly project: Project,
+      loglevel: 'info'|'debug'|'warn'|'error' = 'info') {
     this.docker = new Docker({socketPath: '/var/run/docker.sock'});
-    this.logger = buildLogger('info');
+    this.logger = buildLogger(loglevel);
   }
 
   public async up(authConfig?: Docker.AuthConfig[]): Promise<void> {

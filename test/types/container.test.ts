@@ -1,8 +1,14 @@
 import Docker from 'dockerode';
+
 import {Container} from '../../src/container';
+import {buildLogger} from '../../src/logger';
 import {ContainerName} from '../../src/types';
 
 describe('container', () => {
+  beforeAll(() => {
+    buildLogger('info');
+  });
+
   it('findAvailable basic [mocked dockerode]', async () => {
     const dc = {
       listContainers: jest.fn(() => {
