@@ -3,3 +3,4 @@ export * from './pull';
 export * from './kill';
 export * from './rm';
 export * from './down';
+export * from './ps';

@@ -2,6 +2,7 @@ import Docker from 'dockerode';
 import * as _ from 'lodash';
 import {Logger} from 'winston';
 
+import {PROJECT_LABEL} from './consts';
 import {Container} from './container';
 import {buildLogger} from './logger';
 import {NetworkManager} from './network-manager';
@@ -89,6 +90,13 @@ export class Compose {
       const pullStream = await this.docker.pull(s.imageName.name, {authconfig});
       await this._promisifyStream(pullStream);
     }
+  }
+
+  public ps(): Promise<Docker.ContainerInfo[]> {
+    return this.docker.listContainers({
+      all: true,
+      filters: {label: [`${PROJECT_LABEL}=${this.project.config.projectName}`]}
+    });
   }
 
   public async kill(): Promise<void> {

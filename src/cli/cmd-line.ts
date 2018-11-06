@@ -2,8 +2,10 @@ import {CommandLineParser, CommandLineStringParameter} from '@microsoft/ts-comma
 import dotenv from 'dotenv';
 import * as fs from 'fs-extra';
 import * as path from 'path';
+
 import {ProjectConfig} from '../project-config';
-import {DownAction, KillAction, PullAction, RemoveAction, UpAction} from './actions';
+
+import {DownAction, KillAction, PsAction, PullAction, RemoveAction, UpAction} from './actions';
 
 export class AppCommandLine extends CommandLineParser {
   public config: ProjectConfig;
@@ -83,5 +85,6 @@ export class AppCommandLine extends CommandLineParser {
     this.addAction(new KillAction(this));
     this.addAction(new RemoveAction(this));
     this.addAction(new DownAction(this));
+    this.addAction(new PsAction(this));
   }
 }
