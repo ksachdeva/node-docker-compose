@@ -43,15 +43,8 @@ export class Compose {
     for (let i = 0; i < this.project.services.length; i++) {
       const s = this.project.services[i];
       this.logger.debug('Create the container ..');
-      const container = await Container.create(this.docker, s, (i + 1));
-
-      // attach the desired network with this container
-      // if a service does not have a network specified then
-      // we attach it to the project network else we find the network to attach
-      // to
-      this.logger.debug('Attaching networks ..');
-      await NetworkManager.attachNetworks(
-          this.docker, s, container, networksForDefinition);
+      const container = await Container.create(
+          this.docker, s, (i + 1), networksForDefinition);
 
       // finally start the container
       this.logger.debug('Start the container ..');

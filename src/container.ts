@@ -1,9 +1,10 @@
-import Docker from 'dockerode';
+import Docker, {EndpointsConfig} from 'dockerode';
 import * as _ from 'lodash';
 
 // tslint:disable-next-line:max-line-length
 import {CONTAINER_NUMBER_LABEL, NODE_DOCKER_COMPOSE_VERSION, PROJECT_LABEL, SERVICE_LABEL, VERSION_LABEL} from './consts';
 import {getLogger} from './logger';
+import {NetworkManager} from './network-manager';
 import {ContainerName, ServiceDefinition} from './types';
 
 export type AvailableContainers = Docker.ContainerInfo[];
@@ -68,10 +69,19 @@ export class Container {
   }
 
   public static create(
-      dc: Docker, service: ServiceDefinition,
-      containerIdx: number): Promise<Docker.Container> {
+      dc: Docker, service: ServiceDefinition, containerIdx: number,
+      networks: Docker.NetworkInspectInfo[]): Promise<Docker.Container> {
     getLogger().info(
         `Creating container ${service.containerName} for ${service.name} ..`);
+
+    const nwsToConnectTo = NetworkManager.networksForService(service, networks);
+
+    // build the NetworkingConfigfor this container
+    const endpointsConfig: EndpointsConfig = {};
+    nwsToConnectTo.forEach((nw) => {
+      const endpointSetting: Docker.EndpointSettings = {NetworkID: nw.Id};
+      Object.assign(endpointsConfig, {[nw.Name]: endpointSetting});
+    });
 
     const opts: Docker.ContainerCreateOptions = {
       Image: service.imageName.name,
@@ -85,7 +95,8 @@ export class Container {
         [VERSION_LABEL]: NODE_DOCKER_COMPOSE_VERSION,
         [SERVICE_LABEL]: service.name.name,
         [CONTAINER_NUMBER_LABEL]: containerIdx.toString()
-      }
+      },
+      NetworkingConfig: {EndpointsConfig: endpointsConfig}
     };
 
     if (service.cmd) {

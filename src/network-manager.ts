@@ -1,4 +1,4 @@
-import Docker, {NetworkInspectInfo} from 'dockerode';
+import Docker, {NetworkInspectInfo, Service} from 'dockerode';
 import * as _ from 'lodash';
 import {ServiceDefinition} from 'service';
 import {getLogger} from './logger';
@@ -51,9 +51,8 @@ export class NetworkManager {
     return dc.listNetworks();
   }
 
-  public static async attachNetworks(
-      dc: Docker, service: ServiceDefinition, container: Docker.Container,
-      networks: NetworkInspectInfo[]) {
+  public static networksForService(
+      service: ServiceDefinition, networks: NetworkInspectInfo[]) {
     const nwsToConnectTo: NetworkInspectInfo[] = [];
     if (service.networks.length === 0) {
       // we connect it to the first network ? ... does not seem correct
@@ -65,6 +64,14 @@ export class NetworkManager {
         nwsToConnectTo.push(...relevantNws);
       });
     }
+
+    return nwsToConnectTo;
+  }
+
+  public static async attachNetworks(
+      dc: Docker, service: ServiceDefinition, container: Docker.Container,
+      networks: NetworkInspectInfo[]) {
+    const nwsToConnectTo = NetworkManager.networksForService(service, networks);
 
     // now we connect our container to these networks
     for (const nw of nwsToConnectTo) {

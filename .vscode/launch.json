@@ -14,7 +14,7 @@
         ],
         "args": [
             "-f",
-            "${workspaceFolder}/testdata/docker-compose_1.yaml",
+            "${workspaceFolder}/testdata/docker-compose_4.yaml",
             "up"
         ]
     }]
