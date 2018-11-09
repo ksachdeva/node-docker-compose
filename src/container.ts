@@ -79,7 +79,10 @@ export class Container {
     // build the NetworkingConfigfor this container
     const endpointsConfig: EndpointsConfig = {};
     nwsToConnectTo.forEach((nw) => {
-      const endpointSetting: Docker.EndpointSettings = {NetworkID: nw.Id};
+      const endpointSetting: Docker.EndpointSettings = {
+        NetworkID: nw.Id,
+        Aliases: [service.name.name]
+      };
       Object.assign(endpointsConfig, {[nw.Name]: endpointSetting});
     });
 
