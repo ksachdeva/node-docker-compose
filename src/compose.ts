@@ -78,6 +78,7 @@ export class Compose {
                 s.imageName.name.startsWith(c.serveraddress));
       }
 
+      this.logger.info(`Pulling image - ${s.imageName.name} ..`);
       const pullStream = await this.docker.pull(s.imageName.name, {authconfig});
       await this._promisifyStream(pullStream);
     }

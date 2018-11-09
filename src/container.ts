@@ -71,8 +71,10 @@ export class Container {
   public static create(
       dc: Docker, service: ServiceDefinition, containerIdx: number,
       networks: Docker.NetworkInspectInfo[]): Promise<Docker.Container> {
-    getLogger().info(
-        `Creating container ${service.containerName} for ${service.name} ..`);
+    const logger = getLogger();
+
+    logger.info(`Creating container ${service.containerName} for service ${
+        service.name} ..`);
 
     const nwsToConnectTo = NetworkManager.networksForService(service, networks);
 
@@ -83,6 +85,7 @@ export class Container {
         NetworkID: nw.Id,
         Aliases: [service.name.name]
       };
+      logger.info(`Assigning network ${nw.Name} ...`);
       Object.assign(endpointsConfig, {[nw.Name]: endpointSetting});
     });
 
