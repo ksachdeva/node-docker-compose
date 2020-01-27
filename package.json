@@ -1,6 +1,6 @@
 {
   "name": "node-docker-compose",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "description": "Docker Compose library and cli written for NodeJS",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -22,26 +22,25 @@
   "author": "Kapil Sachdeva",
   "license": "Apache-2.0",
   "devDependencies": {
-    "@types/dotenv": "^4.0.3",
-    "@types/fs-extra": "^5.0.4",
-    "@types/jest": "^23.3.8",
-    "@types/js-yaml": "^3.11.2",
-    "@types/lodash": "^4.14.117",
-    "jest": "^23.6.0",
-    "ts-jest": "^23.10.4",
-    "ts-node": "^7.0.1",
-    "tslint": "^5.11.0",
-    "tslint-microsoft-contrib": "^5.2.0",
-    "typescript": "^3.0.1"
+    "@types/fs-extra": "^8.0.1",
+    "@types/jest": "^24.9.1",
+    "@types/js-yaml": "^3.12.2",
+    "@types/lodash": "^4.14.149",
+    "jest": "^25.1.0",
+    "ts-jest": "^25.0.0",
+    "tslint": "^6.0.0",
+    "tslint-microsoft-contrib": "^6.2.0",
+    "typescript": "~3.7.5",
+    "ts-node": "^8.6.2"
   },
   "dependencies": {
-    "@microsoft/ts-command-line": "^4.2.1",
-    "dependency-graph": "^0.7.2",
-    "dockerode": "^2.5.7",
-    "dotenv": "^6.1.0",
-    "fs-extra": "^7.0.0",
-    "js-yaml": "^3.12.0",
-    "lodash": "^4.17.11",
-    "winston": "^3.1.0"
+    "@microsoft/ts-command-line": "^4.3.10",
+    "dependency-graph": "^0.8.1",
+    "dockerode": "2.5.7",
+    "dotenv": "^8.2.0",
+    "fs-extra": "^8.1.0",
+    "js-yaml": "^3.13.1",
+    "lodash": "^4.17.15",
+    "winston": "^3.2.1"
   }
 }
