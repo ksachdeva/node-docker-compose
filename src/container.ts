@@ -117,6 +117,13 @@ export class Container {
       NetworkingConfig: { EndpointsConfig: endpointsConfig }
     };
 
+    if (service.networkMode) {
+      if (opts.HostConfig) {
+        opts.HostConfig.CgroupnsMode = "host";
+        opts.HostConfig.NetworkMode = "host";
+      }
+    }
+
     if (service.cmd) {
       opts.Cmd = service.cmd;
     }

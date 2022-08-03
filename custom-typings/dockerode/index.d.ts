@@ -93,14 +93,14 @@ declare namespace Dockerode {
 
     /** @param file Filename (will read synchronously), Buffer or stream */
     putArchive(
-        file: string|Buffer|NodeJS.ReadableStream, options: {},
-        callback: Callback<NodeJS.WritableStream>): void;
-    putArchive(file: string|Buffer|NodeJS.ReadableStream, options: {}):
-        Promise<NodeJS.ReadWriteStream>;
+      file: string | Buffer | NodeJS.ReadableStream, options: {},
+      callback: Callback<NodeJS.WritableStream>): void;
+    putArchive(file: string | Buffer | NodeJS.ReadableStream, options: {}):
+      Promise<NodeJS.ReadWriteStream>;
 
     logs(
-        options: ContainerLogsOptions,
-        callback: Callback<NodeJS.ReadableStream>): void;
+      options: ContainerLogsOptions,
+      callback: Callback<NodeJS.ReadableStream>): void;
     logs(callback: Callback<NodeJS.ReadableStream>): void;
     logs(options?: ContainerLogsOptions): Promise<NodeJS.ReadableStream>;
 
@@ -289,7 +289,7 @@ declare namespace Dockerode {
     Created: number;
     Size: number;
     VirtualSize: number;
-    Labels: {[label: string]: string};
+    Labels: { [label: string]: string };
   }
 
   interface ContainerInfo {
@@ -300,11 +300,11 @@ declare namespace Dockerode {
     Command: string;
     Created: number;
     Ports: Port[];
-    Labels: {[label: string]: string};
+    Labels: { [label: string]: string };
     State: string;
     Status: string;
-    HostConfig: {NetworkMode: string;};
-    NetworkSettings: {Networks: {[networkType: string]: NetworkInfo}};
+    HostConfig: { NetworkMode: string; };
+    NetworkSettings: { Networks: { [networkType: string]: NetworkInfo } };
   }
 
   interface Port {
@@ -373,7 +373,7 @@ declare namespace Dockerode {
     HostConfig: HostConfig;
     GraphDriver: {
       Name: string;
-      Data: {DeviceId: string; DeviceName: string; DeviceSize: string;}
+      Data: { DeviceId: string; DeviceName: string; DeviceSize: string; }
     };
     Mounts: Array<{
       Source: string; Destination: string; Mode: string; RW: boolean;
@@ -383,24 +383,24 @@ declare namespace Dockerode {
       Hostname: string; Domainname: string; User: string; AttachStdin: boolean;
       AttachStdout: boolean;
       AttachStderr: boolean;
-      ExposedPorts: {[portAndProtocol: string]: {}};
+      ExposedPorts: { [portAndProtocol: string]: {} };
       Tty: boolean;
       OpenStdin: boolean;
       StdinOnce: boolean;
       Env: string[];
       Cmd: string[];
       Image: string;
-      Volumes: {[volume: string]: {}};
+      Volumes: { [volume: string]: {} };
       WorkingDir: string;
       Entrypoint?: any;
-      OnBuild?: any; Labels: {[label: string]: string}
+      OnBuild?: any; Labels: { [label: string]: string }
     };
     NetworkSettings: {
       Bridge: string; SandboxID: string; HairpinMode: boolean;
       LinkLocalIPv6Address: string;
       LinkLocalIPv6PrefixLen: number;
       Ports: {
-        [portAndProtocol: string]: Array<{HostIp: string; HostPort: string;}>;
+        [portAndProtocol: string]: Array<{ HostIp: string; HostPort: string; }>;
       };
       SandboxKey: string;
       SecondaryIPAddresses?: any;
@@ -436,10 +436,10 @@ declare namespace Dockerode {
     AutoRemove: boolean;
     Binds: string[];
     ContainerIDFile: string;
-    LogConfig: {Type: string; Config: any;};
+    LogConfig: { Type: string; Config: any; };
     NetworkMode: string;
     PortBindings?: any;
-    RestartPolicy: {Name: string; MaximumRetryCount: number;};
+    RestartPolicy: { Name: string; MaximumRetryCount: number; };
     VolumeDriver: string;
     VolumesFrom?: any;
     CapAdd?: any;
@@ -496,7 +496,7 @@ declare namespace Dockerode {
       Hostname: string; Domainname: string; User: string; AttachStdin: boolean;
       AttachStdout: boolean;
       AttachStderr: boolean;
-      ExposedPorts: {[portAndProtocol: string]: {}};
+      ExposedPorts: { [portAndProtocol: string]: {} };
       Tty: boolean;
       OpenStdin: boolean;
       StdinOnce: boolean;
@@ -504,9 +504,9 @@ declare namespace Dockerode {
       Cmd: string[];
       ArgsEscaped: boolean;
       Image: string;
-      Volumes: {[path: string]: {}}, WorkingDir: string;
+      Volumes: { [path: string]: {} }, WorkingDir: string;
       Entrypoint?: any;
-      OnBuild?: any[]; Labels: {[label: string]: string}
+      OnBuild?: any[]; Labels: { [label: string]: string }
     };
     DockerVersion: string;
     Author: string;
@@ -514,7 +514,7 @@ declare namespace Dockerode {
       Hostname: string; Domainname: string; User: string; AttachStdin: boolean;
       AttachStdout: boolean;
       AttachStderr: boolean;
-      ExposedPorts: {[portAndProtocol: string]: {}}
+      ExposedPorts: { [portAndProtocol: string]: {} }
       Tty: boolean;
       OpenStdin: boolean;
       StdinOnce: boolean;
@@ -522,8 +522,8 @@ declare namespace Dockerode {
       Cmd: string[];
       ArgsEscaped: boolean;
       Image: string;
-      Volumes: {[path: string]: {}}, WorkingDir: string;
-      Entrypoint?: any; OnBuild: any[]; Labels: {[label: string]: string}
+      Volumes: { [path: string]: {} }, WorkingDir: string;
+      Entrypoint?: any; OnBuild: any[]; Labels: { [label: string]: string }
     };
     Architecture: string;
     Os: string;
@@ -531,7 +531,7 @@ declare namespace Dockerode {
     VirtualSize: number;
     GraphDriver: {
       Name: string;
-      Data: {DeviceId: string; DeviceName: string; DeviceSize: string;}
+      Data: { DeviceId: string; DeviceName: string; DeviceSize: string; }
     };
   }
 
@@ -549,12 +549,12 @@ declare namespace Dockerode {
     MaximumRetryCount?: number;
   }
 
-  type LoggingDriverType = 'json-file'|'syslog'|'journald'|'gelf'|'fluentd'|
-      'awslogs'|'splunk'|'etwlogs'|'none';
+  type LoggingDriverType = 'json-file' | 'syslog' | 'journald' | 'gelf' | 'fluentd' |
+    'awslogs' | 'splunk' | 'etwlogs' | 'none';
 
   interface LogConfig {
     Type: LoggingDriverType;
-    Config?: {[key: string]: string;}
+    Config?: { [key: string]: string; }
   }
 
   interface DeviceMapping {
@@ -582,7 +582,7 @@ declare namespace Dockerode {
     GlobalIPv6Address?: string;
     GlobalIPV6PrefixLen?: number;
     MacAddress?: string;
-    DriverOpts?: {[key: string]: string;}
+    DriverOpts?: { [key: string]: string; }
   }
 
   interface EndpointsConfig {
@@ -604,12 +604,12 @@ declare namespace Dockerode {
     Cmd?: string[];
     Entrypoint?: string;
     Image?: string;
-    Labels?: {[label: string]: string};
-    Volumes?: {[volume: string]: {}};
+    Labels?: { [label: string]: string };
+    Volumes?: { [volume: string]: {} };
     WorkingDir?: string;
     NetworkDisabled?: boolean;
     MacAddress?: boolean;
-    ExposedPorts?: {[port: string]: {}};
+    ExposedPorts?: { [port: string]: {} };
     StopSignal?: string;
     HostConfig?: {
       AutoRemove?: boolean;
@@ -647,34 +647,35 @@ declare namespace Dockerode {
       VolumesFrom?: string[];
       CapAdd?: string[];
       CapDrop?: string[];
+      CgroupnsMode?: string;
       GroupAdd?: string[];
       RestartPolicy?: RestartPolicy;
       NetworkMode?: string;
       Devices?: DeviceMapping[];
-      Sysctls?: {[index: string]: string};
+      Sysctls?: { [index: string]: string };
       Ulimits?: Array<{}>;
       LogConfig?: LogConfig;
-      SecurityOpt?: {[index: string]: any};
+      SecurityOpt?: { [index: string]: any };
       CgroupParent?: string;
       VolumeDriver?: string;
       ShmSize?: number;
     };
-    NetworkingConfig?: {EndpointsConfig?: EndpointsConfig;};
+    NetworkingConfig?: { EndpointsConfig?: EndpointsConfig; };
   }
 
   interface KeyObject {
-    pem: string|Buffer;
+    pem: string | Buffer;
     passphrase?: string;
   }
 
   interface DockerOptions {
     socketPath?: string;
     host?: string;
-    port?: number|string;
-    ca?: string|string[]|Buffer|Buffer[];
-    cert?: string|string[]|Buffer|Buffer[];
-    key?: string|string[]|Buffer|Buffer[]|KeyObject[];
-    protocol?: 'https'|'http';
+    port?: number | string;
+    ca?: string | string[] | Buffer | Buffer[];
+    cert?: string | string[] | Buffer | Buffer[];
+    key?: string | string[] | Buffer | Buffer[] | KeyObject[];
+    protocol?: 'https' | 'http';
     timeout?: number;
     version?: string;
     Promise?: typeof Promise;
@@ -853,7 +854,7 @@ declare namespace Dockerode {
     KernelVersion: string;
     MinAPIVersion: string;
     Os: string;
-    Platform: {Name: string;};
+    Platform: { Name: string; };
     Version: string;
   }
 }
@@ -864,47 +865,47 @@ declare class Dockerode {
   constructor(options?: Dockerode.DockerOptions);
 
   createContainer(
-      options: Dockerode.ContainerCreateOptions,
-      callback: Callback<Dockerode.Container>): void;
+    options: Dockerode.ContainerCreateOptions,
+    callback: Callback<Dockerode.Container>): void;
   createContainer(options: Dockerode.ContainerCreateOptions):
-      Promise<Dockerode.Container>;
+    Promise<Dockerode.Container>;
 
   createImage(options: {}, callback: Callback<NodeJS.ReadableStream>): void;
   createImage(
-      auth: any, options: {}, callback: Callback<NodeJS.ReadableStream>): void;
+    auth: any, options: {}, callback: Callback<NodeJS.ReadableStream>): void;
   createImage(options: {}): Promise<NodeJS.ReadableStream>;
   createImage(auth: any, options: {}): Promise<NodeJS.ReadableStream>;
 
   loadImage(
-      file: string|NodeJS.ReadableStream, options: {},
-      callback: Callback<NodeJS.ReadableStream>): void;
+    file: string | NodeJS.ReadableStream, options: {},
+    callback: Callback<NodeJS.ReadableStream>): void;
   loadImage(
-      file: string|NodeJS.ReadableStream,
-      callback: Callback<NodeJS.ReadableStream>): void;
-  loadImage(file: string|NodeJS.ReadableStream, options?: {}):
-      Promise<NodeJS.ReadableStream>;
+    file: string | NodeJS.ReadableStream,
+    callback: Callback<NodeJS.ReadableStream>): void;
+  loadImage(file: string | NodeJS.ReadableStream, options?: {}):
+    Promise<NodeJS.ReadableStream>;
 
   importImage(
-      file: string|NodeJS.ReadableStream, options: {},
-      callback: Callback<NodeJS.ReadableStream>): void;
+    file: string | NodeJS.ReadableStream, options: {},
+    callback: Callback<NodeJS.ReadableStream>): void;
   importImage(
-      file: string|NodeJS.ReadableStream,
-      callback: Callback<NodeJS.ReadableStream>): void;
-  importImage(file: string|NodeJS.ReadableStream, options?: {}):
-      Promise<NodeJS.ReadableStream>;
+    file: string | NodeJS.ReadableStream,
+    callback: Callback<NodeJS.ReadableStream>): void;
+  importImage(file: string | NodeJS.ReadableStream, options?: {}):
+    Promise<NodeJS.ReadableStream>;
 
   checkAuth(options: any, callback: Callback<any>): void;
   checkAuth(options: any): Promise<any>;
 
   buildImage(
-      file: string|NodeJS.ReadableStream|Dockerode.ImageBuildContext,
-      options: {}, callback: Callback<NodeJS.ReadableStream>): void;
+    file: string | NodeJS.ReadableStream | Dockerode.ImageBuildContext,
+    options: {}, callback: Callback<NodeJS.ReadableStream>): void;
   buildImage(
-      file: string|NodeJS.ReadableStream|Dockerode.ImageBuildContext,
-      callback: Callback<NodeJS.ReadableStream>): void;
+    file: string | NodeJS.ReadableStream | Dockerode.ImageBuildContext,
+    callback: Callback<NodeJS.ReadableStream>): void;
   buildImage(
-      file: string|NodeJS.ReadableStream|Dockerode.ImageBuildContext,
-      options?: {}): Promise<NodeJS.ReadableStream>;
+    file: string | NodeJS.ReadableStream | Dockerode.ImageBuildContext,
+    options?: {}): Promise<NodeJS.ReadableStream>;
 
   getContainer(id: string): Dockerode.Container;
 
@@ -927,7 +928,7 @@ declare class Dockerode {
   getExec(id: string): Dockerode.Exec;
 
   listContainers(options: {}, callback: Callback<Dockerode.ContainerInfo[]>):
-      void;
+    void;
   listContainers(callback: Callback<Dockerode.ContainerInfo[]>): void;
   listContainers(options?: {}): Promise<Dockerode.ContainerInfo[]>;
 
@@ -986,17 +987,17 @@ declare class Dockerode {
   pruneImages(options?: {}): Promise<Dockerode.PruneImagesInfo>;
 
   pruneContainers(
-      options: {}, callback: Callback<Dockerode.PruneContainersInfo>): void;
+    options: {}, callback: Callback<Dockerode.PruneContainersInfo>): void;
   pruneContainers(callback: Callback<Dockerode.PruneContainersInfo>): void;
   pruneContainers(options?: {}): Promise<Dockerode.PruneContainersInfo>;
 
   pruneVolumes(options: {}, callback: Callback<Dockerode.PruneVolumesInfo>):
-      void;
+    void;
   pruneVolumes(callback: Callback<Dockerode.PruneVolumesInfo>): void;
   pruneVolumes(options?: {}): Promise<Dockerode.PruneVolumesInfo>;
 
   pruneNetworks(options: {}, callback: Callback<Dockerode.PruneNetworksInfo>):
-      void;
+    void;
   pruneNetworks(callback: Callback<Dockerode.PruneNetworksInfo>): void;
   pruneNetworks(options?: {}): Promise<Dockerode.PruneNetworksInfo>;
 
@@ -1017,25 +1018,25 @@ declare class Dockerode {
   getEvents(options?: {}): Promise<NodeJS.ReadableStream>;
 
   pull(repoTag: string, options: {}, callback: Callback<any>, auth?: {}):
-      Dockerode.Image;
+    Dockerode.Image;
   pull(repoTag: string, options: {}, auth?: {}): Promise<any>;
 
   run(image: string, cmd: string[],
-      outputStream: NodeJS.WritableStream|NodeJS.WritableStream[],
-      createOptions: {}, startOptions: {},
-      callback: Callback<any>): events.EventEmitter;
+    outputStream: NodeJS.WritableStream | NodeJS.WritableStream[],
+    createOptions: {}, startOptions: {},
+    callback: Callback<any>): events.EventEmitter;
   run(image: string, cmd: string[],
-      outputStream: NodeJS.WritableStream|NodeJS.WritableStream[],
-      startOptions: {}, callback: Callback<any>): events.EventEmitter;
+    outputStream: NodeJS.WritableStream | NodeJS.WritableStream[],
+    startOptions: {}, callback: Callback<any>): events.EventEmitter;
   run(image: string, cmd: string[],
-      outputStream: NodeJS.WritableStream|NodeJS.WritableStream[],
-      callback: Callback<any>): events.EventEmitter;
+    outputStream: NodeJS.WritableStream | NodeJS.WritableStream[],
+    callback: Callback<any>): events.EventEmitter;
   run(image: string, cmd: string[],
-      outputStream: NodeJS.WritableStream|NodeJS.WritableStream[],
-      createOptions: {}, callback: Callback<any>): events.EventEmitter;
+    outputStream: NodeJS.WritableStream | NodeJS.WritableStream[],
+    createOptions: {}, callback: Callback<any>): events.EventEmitter;
   run(image: string, cmd: string[],
-      outputStream: NodeJS.WritableStream|NodeJS.WritableStream[],
-      createOptions?: {}, startOptions?: {}): Promise<any>;
+    outputStream: NodeJS.WritableStream | NodeJS.WritableStream[],
+    createOptions?: {}, startOptions?: {}): Promise<any>;
 
   swarmInit(options: {}, callback: Callback<any>): void;
   swarmInit(options: {}): Promise<any>;
