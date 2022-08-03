@@ -1,33 +1,33 @@
-import {ValidationError} from '../errors';
+import { ValidationError } from '../errors';
 
-import {Restart} from './alias';
-import {ServiceSpec} from './compose-spec';
-import {ContainerName} from './container-name';
-import {DeviceDefinition} from './device';
-import {ImageName} from './image-name';
-import {LoggingDefinition} from './logging';
-import {NetworkName} from './network-name';
-import {PortMap} from './port-map';
-import {ServiceName} from './service-name';
-import {VolumeDefinition} from './volume';
+import { Restart } from './alias';
+import { ServiceSpec } from './compose-spec';
+import { ContainerName } from './container-name';
+import { DeviceDefinition } from './device';
+import { ImageName } from './image-name';
+import { LoggingDefinition } from './logging';
+import { NetworkName } from './network-name';
+import { PortMap } from './port-map';
+import { ServiceName } from './service-name';
+import { VolumeDefinition } from './volume';
 
 export class ServiceDefinition {
   public readonly name: ServiceName;
   public readonly imageName: ImageName;
-  public readonly containerName: ContainerName|null;
+  public readonly containerName: ContainerName | null;
   public readonly ports: PortMap[];
   public readonly dependsOn: ServiceName[];
   public readonly restart: Restart = '';
   public readonly networks: NetworkName[];
   public readonly privileged: boolean;
   public readonly volumes: VolumeDefinition[];
-  public readonly cmd: string[]|undefined;
+  public readonly cmd: string[] | undefined;
   public readonly logging: LoggingDefinition;
   public readonly devices: DeviceDefinition[];
 
   public constructor(
-      serviceName: ServiceName, serviceSpec: ServiceSpec,
-      readonly projectName: string) {
+    serviceName: ServiceName, serviceSpec: ServiceSpec,
+    readonly projectName: string) {
     this.name = serviceName;
     this.imageName = new ImageName(serviceSpec.image);
     this.ports = [];
@@ -40,7 +40,7 @@ export class ServiceDefinition {
 
     if (serviceSpec.container_name === undefined) {
       throw new ValidationError(
-          'Please specify the container names for the service !');
+        'Please specify the container names for the service !');
     }
 
     this.containerName = new ContainerName(serviceSpec.container_name);
@@ -51,7 +51,7 @@ export class ServiceDefinition {
 
     if (serviceSpec.depends_on !== undefined) {
       this.dependsOn =
-          serviceSpec.depends_on.map((s: string) => new ServiceName(s));
+        serviceSpec.depends_on.map((s: string) => new ServiceName(s));
     }
 
     if (serviceSpec.restart !== undefined) {
@@ -60,7 +60,7 @@ export class ServiceDefinition {
 
     if (serviceSpec.networks !== undefined) {
       this.networks =
-          serviceSpec.networks.map((s: string) => new NetworkName(s));
+        serviceSpec.networks.map((s: string) => new NetworkName(s));
     }
 
     if (serviceSpec.privileged) {
@@ -74,7 +74,7 @@ export class ServiceDefinition {
     if (serviceSpec.command) {
       if (typeof (serviceSpec.command) === 'string') {
         throw new ValidationError(
-            'Only support an array of strings as the value of command field');
+          'Only support an array of strings as the value of command field');
       }
     }
 
@@ -82,7 +82,7 @@ export class ServiceDefinition {
 
     if (serviceSpec.logging) {
       this.logging = new LoggingDefinition(
-          serviceSpec.logging.driver, serviceSpec.logging.options);
+        serviceSpec.logging.driver, serviceSpec.logging.options);
     }
 
     if (serviceSpec.devices) {

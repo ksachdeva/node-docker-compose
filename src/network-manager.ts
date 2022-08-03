@@ -1,14 +1,14 @@
-import Docker, {NetworkInspectInfo, Service} from 'dockerode';
+import Docker, { NetworkInspectInfo, Service } from 'dockerode';
 import * as _ from 'lodash';
-import {ServiceDefinition} from 'service';
-import {getLogger} from './logger';
+import { ServiceDefinition } from 'service';
+import { getLogger } from './logger';
 
-import {NetworkDefinition} from './types/network';
+import { NetworkDefinition } from './types/network';
 
 export class NetworkManager {
   public static async create(
-      dc: Docker, networksToCreate: NetworkDefinition[],
-      existingNetworks: NetworkInspectInfo[]): Promise<NetworkInspectInfo[]> {
+    dc: Docker, networksToCreate: NetworkDefinition[],
+    existingNetworks: NetworkInspectInfo[]): Promise<NetworkInspectInfo[]> {
     const nc: NetworkDefinition[] = [];
 
     _.forEach(networksToCreate, (n) => {
@@ -28,7 +28,7 @@ export class NetworkManager {
       // result
       getLogger().info(`Creating network ${n.name} ..`);
       const dn: Docker.Network =
-          await dc.createNetwork({Name: n.name.name, Driver: n.driver});
+        await dc.createNetwork({ Name: n.name.name, Driver: n.driver });
 
       // hence unfortunately we will have to do inspect on it one more time
       const inspectionInfo: NetworkInspectInfo = await dn.inspect();
@@ -43,8 +43,8 @@ export class NetworkManager {
 
   public static connect(network: Docker.Network, container: Docker.Container) {
     getLogger().info(
-        `Connecting container ${container.id} to network ${network.id} ..`);
-    return network.connect({Container: container.id});
+      `Connecting container ${container.id} to network ${network.id} ..`);
+    return network.connect({ Container: container.id });
   }
 
   public static list(dc: Docker): Promise<Docker.NetworkInspectInfo[]> {
@@ -52,7 +52,7 @@ export class NetworkManager {
   }
 
   public static networksForService(
-      service: ServiceDefinition, networks: NetworkInspectInfo[]) {
+    service: ServiceDefinition, networks: NetworkInspectInfo[]) {
     const nwsToConnectTo: NetworkInspectInfo[] = [];
     if (service.networks.length === 0) {
       // we connect it to the first network ? ... does not seem correct
@@ -69,8 +69,8 @@ export class NetworkManager {
   }
 
   public static async attachNetworks(
-      dc: Docker, service: ServiceDefinition, container: Docker.Container,
-      networks: NetworkInspectInfo[]) {
+    dc: Docker, service: ServiceDefinition, container: Docker.Container,
+    networks: NetworkInspectInfo[]) {
     const nwsToConnectTo = NetworkManager.networksForService(service, networks);
 
     // now we connect our container to these networks

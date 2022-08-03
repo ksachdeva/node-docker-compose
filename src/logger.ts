@@ -1,10 +1,10 @@
-import {createLogger, format, Logger, transports} from 'winston';
+import { createLogger, format, Logger, transports } from 'winston';
 
 let _theLogger: Logger;
 
 export function buildLogger(level: string) {
   _theLogger = createLogger(
-      {level, format: format.simple(), transports: [new transports.Console()]});
+    { level, format: format.simple(), transports: [new transports.Console()] });
 
   return _theLogger;
 }

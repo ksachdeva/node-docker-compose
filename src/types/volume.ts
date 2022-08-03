@@ -1,5 +1,5 @@
 import * as _ from 'lodash';
-import {ValidationError} from '../errors';
+import { ValidationError } from '../errors';
 
 export class VolumeDefinition {
   public readonly hostPath: string;

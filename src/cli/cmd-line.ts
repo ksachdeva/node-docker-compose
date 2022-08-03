@@ -1,11 +1,11 @@
-import {CommandLineParser, CommandLineStringParameter} from '@microsoft/ts-command-line';
+import { CommandLineParser, CommandLineStringParameter } from '@rushstack/ts-command-line';
 import dotenv from 'dotenv';
 import * as fs from 'fs-extra';
 import * as path from 'path';
 
-import {ProjectConfig} from '../project-config';
+import { ProjectConfig } from '../project-config';
 
-import {DownAction, KillAction, PsAction, PullAction, RemoveAction, UpAction} from './actions';
+import { DownAction, KillAction, PsAction, PullAction, RemoveAction, UpAction } from './actions';
 
 export class AppCommandLine extends CommandLineParser {
   public config: ProjectConfig;
@@ -17,10 +17,10 @@ export class AppCommandLine extends CommandLineParser {
     super({
       toolFilename: 'ndc',
       toolDescription:
-          'Define and run multi-container applications with Docker.'
+        'Define and run multi-container applications with Docker.'
     });
 
-    this.config = {projectName: '', pull: false, composeSpec: ''};
+    this.config = { projectName: '', pull: false, composeSpec: '' };
 
     this._populateActions();
   }
@@ -33,7 +33,7 @@ export class AppCommandLine extends CommandLineParser {
       defaultValue: 'docker-compose.yaml',
       argumentName: 'COMPOSE_FILE_PATH',
       description:
-          'Specify an alternate compose file (default: docker-compose.yaml)'
+        'Specify an alternate compose file (default: docker-compose.yaml)'
     });
 
     this._projectName = this.defineStringParameter({
@@ -57,7 +57,7 @@ export class AppCommandLine extends CommandLineParser {
     // name of specified compose file
     if (!this._projectName.value) {
       const dname =
-          path.basename(path.dirname(this._composeFile.value as string));
+        path.basename(path.dirname(this._composeFile.value as string));
       this.config.projectName = `${dname}_default`;
     } else {
       this.config.projectName = this._projectName.value as string;
@@ -65,7 +65,7 @@ export class AppCommandLine extends CommandLineParser {
 
     // check if there is any .env file in the project directory
     const envFilePath = path.resolve(
-        path.join(path.dirname(this._composeFile.value as string), '.env'));
+      path.join(path.dirname(this._composeFile.value as string), '.env'));
 
     if (fs.pathExistsSync(envFilePath)) {
       // here I am only passing the explicitly defined environment

@@ -1,8 +1,8 @@
-import {CommandLineFlagParameter} from '@microsoft/ts-command-line';
-import {Compose} from '../../compose';
-import {Project} from '../../project';
-import {AppCommandLine} from '../cmd-line';
-import {BaseAction} from './base';
+import { CommandLineFlagParameter } from '@rushstack/ts-command-line';
+import { Compose } from '../../compose';
+import { Project } from '../../project';
+import { AppCommandLine } from '../cmd-line';
+import { BaseAction } from './base';
 
 export class RemoveAction extends BaseAction {
   private force: CommandLineFlagParameter;

@@ -4,7 +4,7 @@ export class NetworkName {
     // TODO: run the validation of the passed argument
   }
 
-  public isEqual(name: NetworkName|string): boolean {
+  public isEqual(name: NetworkName | string): boolean {
     if (name instanceof NetworkName) {
       return this.name === name.name;
     }

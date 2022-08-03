@@ -1,8 +1,8 @@
-import {ComposeSpec} from './types/compose-spec';
+import { ComposeSpec } from './types/compose-spec';
 
 export interface ProjectConfig {
   projectName: string;
-  composeSpec: string|ComposeSpec;
+  composeSpec: string | ComposeSpec;
   pull: boolean;
-  environmentVariables?: {[key: string]: string};
+  environmentVariables?: { [key: string]: string };
 }

@@ -4,7 +4,7 @@ export class RepoName {
     // repo name
   }
 
-  public isEqual(name: RepoName|string): boolean {
+  public isEqual(name: RepoName | string): boolean {
     if (name instanceof RepoName) {
       return this.name === name.name;
     }

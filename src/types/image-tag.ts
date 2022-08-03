@@ -3,7 +3,7 @@ export class ImageTag {
     // TODO: add the validation for the name
   }
 
-  public isEqual(name: ImageTag|string): boolean {
+  public isEqual(name: ImageTag | string): boolean {
     if (name instanceof ImageTag) {
       return this.name === name.name;
     }

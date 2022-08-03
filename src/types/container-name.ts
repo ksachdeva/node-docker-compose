@@ -10,7 +10,7 @@ export class ContainerName {
     // TODO: run the validation of the passed argument
   }
 
-  public isEqual(name: ContainerName|string): boolean {
+  public isEqual(name: ContainerName | string): boolean {
     if (name instanceof ContainerName) {
       return _normalizedName(this.name) === _normalizedName(name.name);
     }

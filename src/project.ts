@@ -1,15 +1,15 @@
 import * as _ from 'lodash';
 
-import {ValidationError} from './errors';
-import {ProjectConfig} from './project-config';
-import {ComposeSpec} from './types/compose-spec';
-import {ComposeVersion} from './types/compose-version';
-import {NetworkDefinition} from './types/network';
-import {NetworkName} from './types/network-name';
-import {ServiceDefinition} from './types/service';
-import {ServiceName} from './types/service-name';
-import {getOrderedServiceList} from './utils';
-import {convertToJSON} from './yaml-to-json';
+import { ValidationError } from './errors';
+import { ProjectConfig } from './project-config';
+import { ComposeSpec } from './types/compose-spec';
+import { ComposeVersion } from './types/compose-version';
+import { NetworkDefinition } from './types/network';
+import { NetworkName } from './types/network-name';
+import { ServiceDefinition } from './types/service';
+import { ServiceName } from './types/service-name';
+import { getOrderedServiceList } from './utils';
+import { convertToJSON } from './yaml-to-json';
 
 export class Project {
   public readonly version: ComposeVersion;
@@ -20,7 +20,7 @@ export class Project {
     let composeSpec: ComposeSpec;
     if (typeof (config.composeSpec) === 'string') {
       composeSpec = convertToJSON(
-          config.composeSpec as string, config.environmentVariables);
+        config.composeSpec as string, config.environmentVariables);
     } else {
       composeSpec = config.composeSpec as ComposeSpec;
     }
@@ -51,7 +51,7 @@ export class Project {
 
         const networkName = new NetworkName(key);
         const network =
-            new NetworkDefinition(networkName, composeSpec.networks[key]);
+          new NetworkDefinition(networkName, composeSpec.networks[key]);
         this.networks.push(network);
       }
     } else {
@@ -66,7 +66,7 @@ export class Project {
       }
 
       const networkName = new NetworkName(nwName);
-      const network = new NetworkDefinition(networkName, {driver: 'bridge'});
+      const network = new NetworkDefinition(networkName, { driver: 'bridge' });
       this.networks.push(network);
     }
   }
@@ -81,7 +81,7 @@ export class Project {
 
       const serviceName = new ServiceName(key);
       const service = new ServiceDefinition(
-          serviceName, composeSpec.services[key], this.config.projectName);
+        serviceName, composeSpec.services[key], this.config.projectName);
 
       this.services.push(service);
     }
@@ -96,7 +96,7 @@ export class Project {
       const result = _.includes(networkNames, n.name);
       if (!result) {
         throw new ValidationError(
-            `Service "${s.name}" contains an undefined network - "${n}"`);
+          `Service "${s.name}" contains an undefined network - "${n}"`);
       }
     }));
   }
@@ -110,7 +110,7 @@ export class Project {
       const result = _.includes(serviceNames, d.name);
       if (!result) {
         throw new ValidationError(
-            `Service "${s.name}" contains an undefined dependency - "${d}"`);
+          `Service "${s.name}" contains an undefined dependency - "${d}"`);
       }
     }));
   }

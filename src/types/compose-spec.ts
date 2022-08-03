@@ -1,6 +1,6 @@
 import Docker from 'dockerode';
-import {NetworkDriverType, Restart} from './alias';
-import {ComposeVersion} from './compose-version';
+import { NetworkDriverType, Restart } from './alias';
+import { ComposeVersion } from './compose-version';
 
 export interface ServiceSpec {
   image: string;
@@ -13,7 +13,7 @@ export interface ServiceSpec {
   privileged?: boolean;
   command?: string[];
   logging?:
-      {driver: Docker.LoggingDriverType; options?: {[key: string]: string}};
+  { driver: Docker.LoggingDriverType; options?: { [key: string]: string } };
   devices?: string[];
 }
 
@@ -23,6 +23,6 @@ export interface NetworkSpec {
 
 export interface ComposeSpec {
   version: ComposeVersion;
-  services: {[key: string]: ServiceSpec};
-  networks?: {[key: string]: NetworkSpec};
+  services: { [key: string]: ServiceSpec };
+  networks?: { [key: string]: NetworkSpec };
 }

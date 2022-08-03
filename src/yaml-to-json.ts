@@ -1,10 +1,10 @@
 import * as fs from 'fs-extra';
 import * as yaml from 'js-yaml';
-import {ComposeSpec} from './types/compose-spec';
-import {patchEnvironmentVariables} from './utils';
+import { ComposeSpec } from './types/compose-spec';
+import { patchEnvironmentVariables } from './utils';
 
 export function convertToJSON(
-    composeFilePath: string, env?: {[key: string]: string}): ComposeSpec {
+  composeFilePath: string, env?: { [key: string]: string }): ComposeSpec {
   // read the yaml file as simply text
   let content = fs.readFileSync(composeFilePath, 'utf8');
 
@@ -14,5 +14,5 @@ export function convertToJSON(
   }
 
   // TODO : translate YAML errors to custom errors
-  return yaml.safeLoad(content);
+  return yaml.safeLoad(content) as ComposeSpec;
 }

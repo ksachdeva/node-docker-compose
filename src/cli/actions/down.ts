@@ -1,8 +1,8 @@
-import {CommandLineAction, CommandLineStringListParameter} from '@microsoft/ts-command-line';
-import {Compose} from '../../compose';
-import {Project} from '../../project';
-import {AppCommandLine} from '../cmd-line';
-import {BaseAction} from './base';
+import { CommandLineAction, CommandLineStringListParameter } from '@rushstack/ts-command-line';
+import { Compose } from '../../compose';
+import { Project } from '../../project';
+import { AppCommandLine } from '../cmd-line';
+import { BaseAction } from './base';
 
 export class DownAction extends BaseAction {
   constructor(private _parser: AppCommandLine) {
@@ -18,7 +18,7 @@ export class DownAction extends BaseAction {
   }
 
   // tslint:disable-next-line:no-empty
-  protected onDefineParameters(): void {}
+  protected onDefineParameters(): void { }
 
   protected async onExecute(): Promise<void> {
     await super.onExecute();

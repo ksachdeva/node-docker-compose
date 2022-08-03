@@ -4,7 +4,7 @@ export class ServiceName {
     // TODO: run the validation of the passed argument
   }
 
-  public isEqual(name: ServiceName|string): boolean {
+  public isEqual(name: ServiceName | string): boolean {
     if (name instanceof ServiceName) {
       return this.name === name.name;
     }

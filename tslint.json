@@ -1,15 +1,20 @@
 {
     "extends": "tslint:recommended",
-    "rulesDirectory": [
-        "tslint-microsoft-contrib"
-    ],
+    "rulesDirectory": [],
     "rules": {
-        "trailing-comma": [false, {
-            "multiline": "always",
-            "singleline": "never"
-        }],
-        "interface-name": [false, "always-prefix"],
-        "no-console": [true,
+        "trailing-comma": [
+            false,
+            {
+                "multiline": "always",
+                "singleline": "never"
+            }
+        ],
+        "interface-name": [
+            false,
+            "always-prefix"
+        ],
+        "no-console": [
+            true,
             "time",
             "timeEnd",
             "trace"
@@ -21,7 +26,9 @@
         "no-string-literal": false,
         "no-use-before-declare": true,
         "object-literal-sort-keys": false,
-        "ordered-imports": [false],
+        "ordered-imports": [
+            false
+        ],
         "quotemark": [
             true,
             "single",

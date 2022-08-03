@@ -1,5 +1,5 @@
-import {ImageTag} from './image-tag';
-import {RepoName} from './repo-name';
+import { ImageTag } from './image-tag';
+import { RepoName } from './repo-name';
 
 export class ImageName {
   public readonly repoName: RepoName;
