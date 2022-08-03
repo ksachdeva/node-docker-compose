@@ -7,6 +7,7 @@ import { DeviceDefinition } from './device';
 import { ImageName } from './image-name';
 import { LoggingDefinition } from './logging';
 import { NetworkName } from './network-name';
+import { NetworkMode } from './network-mode';
 import { PortMap } from './port-map';
 import { ServiceName } from './service-name';
 import { VolumeDefinition } from './volume';
@@ -15,6 +16,7 @@ export class ServiceDefinition {
   public readonly name: ServiceName;
   public readonly imageName: ImageName;
   public readonly containerName: ContainerName | null;
+  public readonly networkMode: NetworkMode | null;
   public readonly ports: PortMap[];
   public readonly dependsOn: ServiceName[];
   public readonly restart: Restart = '';
@@ -37,6 +39,7 @@ export class ServiceDefinition {
     this.containerName = null;
     this.privileged = false;
     this.devices = [];
+    this.networkMode = null;
 
     if (serviceSpec.container_name === undefined) {
       throw new ValidationError(
@@ -56,6 +59,10 @@ export class ServiceDefinition {
 
     if (serviceSpec.restart !== undefined) {
       this.restart = serviceSpec.restart;
+    }
+
+    if (serviceSpec.network_mode !== undefined) {
+      this.networkMode = new NetworkMode(serviceSpec.network_mode);
     }
 
     if (serviceSpec.networks !== undefined) {

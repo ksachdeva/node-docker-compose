@@ -70,23 +70,36 @@ export class Container {
 
   public static create(
     dc: Docker, service: ServiceDefinition, containerIdx: number,
-    networks: Docker.NetworkInspectInfo[]): Promise<Docker.Container> {
+    networks: Docker.NetworkInspectInfo[], hostNetwork?: Docker.NetworkInspectInfo): Promise<Docker.Container> {
     const logger = getLogger();
 
     logger.info(`Creating container ${service.containerName} for service ${service.name} ..`);
 
-    const nwsToConnectTo = NetworkManager.networksForService(service, networks);
 
     // build the NetworkingConfigfor this container
     const endpointsConfig: EndpointsConfig = {};
-    nwsToConnectTo.forEach((nw) => {
-      const endpointSetting: Docker.EndpointSettings = {
-        NetworkID: nw.Id,
-        Aliases: [service.name.name]
-      };
-      logger.info(`Assigning network ${nw.Name} ...`);
-      Object.assign(endpointsConfig, { [nw.Name]: endpointSetting });
-    });
+
+    if (service.networkMode == null) {
+
+      const nwsToConnectTo = NetworkManager.networksForService(service, networks);
+
+      nwsToConnectTo.forEach((nw) => {
+        const endpointSetting: Docker.EndpointSettings = {
+          NetworkID: nw.Id,
+          Aliases: [service.name.name]
+        };
+        logger.info(`Assigning network ${nw.Name} ...`);
+        Object.assign(endpointsConfig, { [nw.Name]: endpointSetting });
+      });
+    } else {
+      if (hostNetwork !== undefined) {
+        const endpointSetting: Docker.EndpointSettings = {
+          NetworkID: hostNetwork.Id
+        };
+        logger.info(`Assigning network ${hostNetwork.Name} ...`);
+        Object.assign(endpointsConfig, { [hostNetwork.Name]: endpointSetting });
+      }
+    }
 
     const opts: Docker.ContainerCreateOptions = {
       Image: service.imageName.name,

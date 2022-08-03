@@ -1,4 +1,4 @@
-import Docker from 'dockerode';
+import Docker, { NetworkInspectInfo } from 'dockerode';
 import * as _ from 'lodash';
 import { Logger } from 'winston';
 
@@ -28,6 +28,14 @@ export class Compose {
     this.logger.debug('List the existing networks ..');
     let existingNetworks = await NetworkManager.list(this.docker);
 
+    let hostNetworkInfo = undefined;
+    for (let i = 0; i < existingNetworks.length; i++) {
+      if (existingNetworks[i].Name == "host") {
+        hostNetworkInfo = existingNetworks[i];
+        break;
+      }
+    }
+
     // create the networks for the project
     this.logger.debug('Create the networks that do not exist ..');
     existingNetworks = await NetworkManager.create(
@@ -44,7 +52,7 @@ export class Compose {
       const s = this.project.services[i];
       this.logger.debug('Create the container ..');
       const container = await Container.create(
-        this.docker, s, (i + 1), networksForDefinition);
+        this.docker, s, (i + 1), networksForDefinition, hostNetworkInfo);
 
       // finally start the container
       this.logger.debug('Start the container ..');

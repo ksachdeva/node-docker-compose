@@ -13,3 +13,4 @@ export * from './alias';
 export * from './device';
 export * from './volume';
 export * from './logging';
+export * from './network-mode';
