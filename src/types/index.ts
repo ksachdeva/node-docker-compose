@@ -14,3 +14,4 @@ export * from './device';
 export * from './volume';
 export * from './logging';
 export * from './network-mode';
+export * from './runtime-name';

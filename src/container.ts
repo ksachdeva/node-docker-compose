@@ -124,6 +124,12 @@ export class Container {
       }
     }
 
+    if (service.runtime) {
+      if (opts.HostConfig) {
+        opts.HostConfig.Runtime = service.runtime.name;
+      }
+    }
+
     if (service.cmd) {
       opts.Cmd = service.cmd;
     }

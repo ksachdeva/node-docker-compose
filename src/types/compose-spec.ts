@@ -7,6 +7,7 @@ export interface ServiceSpec {
   restart?: Restart;
   container_name: string;  // Note - make it mandatory for some time
   network_mode?: string;
+  runtime?: string;
   ports?: string[];
   volumes?: string[];
   networks?: string[];

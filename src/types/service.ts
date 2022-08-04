@@ -11,6 +11,7 @@ import { NetworkMode } from './network-mode';
 import { PortMap } from './port-map';
 import { ServiceName } from './service-name';
 import { VolumeDefinition } from './volume';
+import { RuntimeName } from './runtime-name';
 
 export class ServiceDefinition {
   public readonly name: ServiceName;
@@ -26,6 +27,7 @@ export class ServiceDefinition {
   public readonly cmd: string[] | undefined;
   public readonly logging: LoggingDefinition;
   public readonly devices: DeviceDefinition[];
+  public readonly runtime: RuntimeName | null;
 
   public constructor(
     serviceName: ServiceName, serviceSpec: ServiceSpec,
@@ -40,6 +42,7 @@ export class ServiceDefinition {
     this.privileged = false;
     this.devices = [];
     this.networkMode = null;
+    this.runtime = null;
 
     if (serviceSpec.container_name === undefined) {
       throw new ValidationError(
@@ -94,6 +97,10 @@ export class ServiceDefinition {
 
     if (serviceSpec.devices) {
       this.devices = serviceSpec.devices.map((d) => new DeviceDefinition(d));
+    }
+
+    if (serviceSpec.runtime) {
+      this.runtime = new RuntimeName(serviceSpec.runtime)
     }
   }
 }

@@ -651,6 +651,7 @@ declare namespace Dockerode {
       GroupAdd?: string[];
       RestartPolicy?: RestartPolicy;
       NetworkMode?: string;
+      Runtime?: string;
       Devices?: DeviceMapping[];
       Sysctls?: { [index: string]: string };
       Ulimits?: Array<{}>;

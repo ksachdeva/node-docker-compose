@@ -1,0 +1,9 @@
+version: "2.0"
+services:
+
+  l4t:
+    image: nvcr.io/nvidia/l4t-base:r32.7.1
+    container_name: l4t
+    network_mode: host
+    runtime: nvidia
+    privileged: true
